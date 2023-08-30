@@ -14,6 +14,8 @@ class TemplateSettings(models.Model):
     alt2 = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
     banner3 = models.ImageField(verbose_name='بنر میانی پایین')
     alt3 = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
+    order_deliver_time = models.CharField(max_length=450,verbose_name='زمان ارسال محصول ', default=' از انبار مَسای کالا طی 2 روز کاری')
+
 
 
 class UnderSlider(models.Model):
@@ -66,3 +68,4 @@ class FooterDepthTwo(models.Model):
     link = models.CharField(max_length=100,null=True,verbose_name='لینک صفحه')
     def __str__(self):
         return  str(self.parent.name) + " | " +  self.name 
+
