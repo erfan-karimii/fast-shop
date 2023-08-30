@@ -3,10 +3,12 @@ from django.db import models
 # Create your models here.
 
 class TemplateSettings(models.Model):
-    top_navbar = models.ImageField()
+    copyright_text = models.CharField(max_length=150,default="all rights reserved")
+    top_navbar = models.ImageField(verbose_name="بنر بالا")
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
-    logo = models.ImageField(verbose_name='بنر میانی راست')
-    banner1 = models.ImageField()
+    logo = models.ImageField(verbose_name='لوگو')
+    alt_logo = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
+    banner1 = models.ImageField(verbose_name='بنر میانی راست')
     alt1 = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
     banner2 = models.ImageField(verbose_name='بنر میانی چپ')
     alt2 = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
@@ -60,7 +62,7 @@ class Footer(models.Model):
 
 class FooterDepthTwo(models.Model):
     parent = models.ForeignKey(Footer,on_delete=models.PROTECT)
-    name = models.CharField(max_length=50,verbose_name='نام')
+    name = models.CharField(max_length=450,verbose_name='نام')
     link = models.CharField(max_length=100,null=True,verbose_name='لینک صفحه')
     def __str__(self):
         return  str(self.parent.name) + " | " +  self.name 
