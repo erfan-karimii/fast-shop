@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import TemplateSettings,UnderSlider,Brands,NavBar,NavBarDepthTwo,Slider,Footer,FooterDepthTwo
+from .models import TemplateSettings,UnderSlider,Brand,NavBar,NavBarDepthTwo,Slider,Footer,FooterDepthTwo
 
 # Register your models here.
 
 admin.site.register(TemplateSettings)
 admin.site.register(UnderSlider)
-admin.site.register(Brands)
+admin.site.register(Brand)
 admin.site.register(NavBar)
 admin.site.register(NavBarDepthTwo)
 admin.site.register(Slider)

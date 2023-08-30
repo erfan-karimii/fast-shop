@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=100,verbose_name='نام دسته بندی')
-    brand = models.ManyToManyField("home.Brands")
+    brand = models.ManyToManyField("home.Brand")
     return_condition = models.TextField(default='برای کالاهای گروه موبایل، امکان برگشت کالا به دلیل انصراف از خرید تنها در صورتی مورد قبول است که کالا بدون هیچگونه استفاده و با تمامی قطعات، متعلقات و بسته‌بندی‌های اولیه خود بازگردانده شود. لازم به ذکر است که برای هر کالای موبایل، ضمانت رجیستری صادر می‌شود. در صورت بروز اشکال در ضمانت رجیستری، پس از انقضای مدت ۳۰ روزه، کالا می‌تواند بازگردانده شود.')
     image = models.ImageField(verbose_name='عکس دسته بندی')
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
@@ -26,10 +26,10 @@ class Product(models.Model):
     image = models.ImageField(verbose_name="عکس محصول")
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
     category = models.ForeignKey(Category,on_delete=models.PROTECT)
-    brand = models.ForeignKey("home.Brands",on_delete=models.PROTECT)
+    brand = models.ForeignKey("home.Brand",on_delete=models.PROTECT)
     count = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
-    discount_percentage = models.IntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],verbose_name='درصد تخفیف')
+    discount = models.IntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],verbose_name='درصد تخفیف')
     specification = models.TextField()
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
@@ -38,7 +38,7 @@ class Product(models.Model):
 
 
     def main_discount_call(self):
-        return self.price - (self.price * (self.discount_percentage/100))
+        return self.price - (self.price * (self.discount/100))
     
     def __str__(self):
         return self.name
@@ -47,15 +47,17 @@ class Product(models.Model):
 class PhotoGallery(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE) 
     image = models.ImageField(verbose_name="عکس محصول")
-    alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
     text = models.CharField(max_length=150)
+
 
 class Comment(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     author = models.ForeignKey("account.Profile",on_delete=models.CASCADE)
     title = models.CharField(max_length=150) 
     text = models.TextField()
+    score = models.PositiveSmallIntegerField(verbose_name='امتیاز محصول',validators=[MaxValueValidator(10)],null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     is_show = models.BooleanField(default=False,verbose_name='نمایش داده شود؟')
-
-
+    def __str__(self):
+        return self.title
+    

@@ -1,1 +1,2 @@
-- check seetings.py django deeply
+- check settings.py django deeply
+- add is_show category & product to custom admin panel
