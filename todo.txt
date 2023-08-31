@@ -1,3 +1,4 @@
 - check settings.py django deeply
 - add is_show category & product to custom admin panel
 - simple captcha on comment
+- fix css of price input in list view

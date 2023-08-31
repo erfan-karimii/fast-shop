@@ -36,13 +36,14 @@ class Product(models.Model):
     updated_date = models.DateTimeField(auto_now=True,null=True)
     is_show = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
 
     def main_discount_call(self):
         return self.price - (self.price * (self.discount/100))
     
-    def __str__(self):
-        return self.name
-
+    def in_stock(self):
+        return bool(self.count)
 
 class PhotoGallery(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE) 
