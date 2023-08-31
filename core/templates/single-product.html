@@ -209,46 +209,30 @@
                                             <div class="comments_form default">
                                                 <ol class="comment-list">
                                                     <!-- #comment-## -->
+                                                    {% for comment in product.comment_set.all %}
+                                                    {% if comment.is_show %}
                                                     <li>
                                                         <div class="comment-body">
                                                             <div class="comment-author">
-                                                                <img alt="" src="{% static 'assets/img/profile/1.png' %}" class="avatar"><span class="star4">4.3</span><div class="text-h5">عالی وشیک</div> 
+                                                                <img src="{{comment.author.image.url}}" class="avatar"><span class="star3">{{comment.score}}</span><div class="text-h5">{{comment.title}}</div> 
                                                             </div>
+                                                            <p>{{comment.text}}</p>
                                                             
-                                                            <p>محصول بسیار خوبی است. صفحه‌نمایش با کیفیت فوق‌العاده، دوربین‌های با کیفیت و روانی کارکرد دستگاه همگی از ویژگی‌های مثبت این محصول هستند.</p>
                                                             <ul class="commentul">
                                                                 <li>
-                                                                    25 اردیبهشت 1402
-
-
+                                                                    {{comment.created_date.year}} / {{comment.created_date.month}} / {{comment.created_date.day}}
+                                                                    
+                                                                    
                                                                 </li>
                                                                 <li>
-                                                                    رضا صبوری
+                                                                    {{comment.author.get_fullname}}
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </li>
-                                                    <li>
-                                                        <div class="comment-body">
-                                                            <div class="comment-author">
-                                                                <img alt="" src="{% static 'assets/img/profile/2.png' %}" class="avatar"><span class="star3">3.2</span><div class="text-h5">جنس ضعیف</div>
-                                                            </div>
+                                                    {% endif %}
+                                                    {% endfor %}
 
-                                                            <p>
-                                                                اینقد قیمتش زیاد هست که نمیشه سمتش رفت، خریدم ولی پشیمونم، بنظر من نخرید، نوکیا 1100 از این بهتره، خیلی کار باهاش هم دشوار هست.
-                                                            </p>
-                                                            <ul class="commentul">
-                                                                <li>
-                                                                    30 اردیبهشت 1402
-
-
-                                                                </li>
-                                                                <li>
-                                                                    محمود صفایی
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
                                                 </ol>
                                             </div>
                                             

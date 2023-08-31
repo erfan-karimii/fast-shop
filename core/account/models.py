@@ -67,6 +67,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+    def get_fullname(self):
+        return self.first_name + " " + self.last_name
 
 @receiver(post_save,sender=User)
 def save_profile(sender,instance,created,**kwargs):

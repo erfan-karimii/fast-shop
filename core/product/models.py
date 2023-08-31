@@ -60,4 +60,6 @@ class Comment(models.Model):
     is_show = models.BooleanField(default=False,verbose_name='نمایش داده شود؟')
     def __str__(self):
         return self.title
+            
+
     
