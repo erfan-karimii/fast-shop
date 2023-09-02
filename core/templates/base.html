@@ -52,7 +52,25 @@
     <script src="{% static 'assets/js/nouislider.min.js' %}" ></script>
     <!-- custom Js -->
     <script src="{% static 'assets/js/main.js' %}" type="text/javascript"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% block js %}{% endblock js %}
+    <script>
+        $(document).ready(function () {
+            {% for message in messages %}
+                {% if message.level == 40 %}
+                Swal.fire({
+                    icon: 'error',
+                    html: '{{message}}',
+                })
+                {% else %}
+                Swal.fire({
+                    icon: 'success',
+                    text: '{{message}}',
+                })
+                {% endif %}
+            {% endfor %}
+        });
+    </script>
 </body>
 
 </html>
