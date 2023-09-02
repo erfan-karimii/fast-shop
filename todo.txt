@@ -3,3 +3,4 @@
 - simple captcha on comment
 - fix color show when search by color
 - most sell order_by listview
+- verify email

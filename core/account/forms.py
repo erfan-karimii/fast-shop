@@ -3,12 +3,20 @@ from typing import Any, Dict
 from django import forms
 from .models import User
 
+    
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField()
+
 class RegisterForm(forms.ModelForm):
+    password2 = forms.CharField(max_length=255,)
     class Meta:
         model = User
-        fields = ['email','password']
+        fields = ['email','password','password2']
     
     def clean(self) -> Dict[str, Any]:
+        if self.cleaned_data['password'] != self.cleaned_data['password2']:
+            raise forms.ValidationError({'password':'پسورد اول و دوم وارد شده یکی نمی باشد.'})
 
         try :
             password = self.cleaned_data['password']
@@ -16,9 +24,4 @@ class RegisterForm(forms.ModelForm):
         except forms.ValidationError as e:
             raise forms.ValidationError({'password':list(e.messages)})
         return super().clean()
-    
-class LoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField()
 
-    
