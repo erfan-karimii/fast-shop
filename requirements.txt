@@ -3,3 +3,4 @@ Pillow==9.3.0
 django-ckeditor==6.5.1
 django_render_partial==0.4
 django-environ
+django-colorfield

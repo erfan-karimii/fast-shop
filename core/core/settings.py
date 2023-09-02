@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #-----------package--------
     "ckeditor",
     "django_render_partial",
+    'colorfield',
 ]
 
 MIDDLEWARE = [

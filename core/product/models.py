@@ -1,4 +1,5 @@
 from django.db import models
+from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
@@ -22,6 +23,13 @@ class CategoryDepthTwo(models.Model):
 
 
 class Product(models.Model):
+    COLOR_PALETTE = [
+        ("#FFFFFF", "white", ),
+        ("#000000", "black", ),
+        ("#0000ff", "blue", ),
+        ("#ffd800", "yellow", ),
+        ("#ff0000", "red", ),
+    ]
     name = models.CharField(max_length=450,verbose_name='نام محصول')
     image = models.ImageField(verbose_name="عکس محصول")
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
@@ -29,6 +37,7 @@ class Product(models.Model):
     brand = models.ForeignKey("home.Brand",on_delete=models.PROTECT)
     count = models.PositiveIntegerField()
     price = models.PositiveIntegerField()
+    color = ColorField(samples=COLOR_PALETTE,null=True)
     discount = models.IntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],verbose_name='درصد تخفیف')
     specification = models.TextField()
     description = models.TextField()

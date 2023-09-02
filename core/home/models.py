@@ -27,7 +27,7 @@ class UnderSlider(models.Model):
  
 
 class Brand(models.Model):
-    name = models.CharField(max_length=150,null=True)
+    name = models.CharField(max_length=150,null=True,unique=True)
     image = models.ImageField(verbose_name='عکس برند')
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
     def __str__(self):

@@ -1,5 +1,6 @@
 from django.shortcuts import render , get_object_or_404 , redirect 
 from django.urls import reverse
+from django.db.models import Q
 from .models import Product , Category
 from .forms import CommentForm , ProductFilterForm
 from home.models import TemplateSettings , Brand
@@ -38,38 +39,38 @@ def validate_comment(request):
             
         return redirect(reverse("product:detail-view",args=[product_id]))
 
-def list_view(request):
-    products = Product.objects.filter(is_show=True)
+def list_view(request,cat_id=None):
     categories = Category.objects.all()[:6]
     brands = Brand.objects.all()
-    if len(request.GET):
-        colors = request.GET.getlist('colors','')
-        brands_id = request.GET.getlist('brands','')
-        # if brands_id:
-        #     products = products.filter(brand__id__in=brands_id)
-        if colors:
-            # colors_text = ' '.join(colors)
-            # print(colors_text)
-            products = products.filter(specification__in=colors)
-        
-        # print('yes' if 'سفید' in Product.objects.get(id=2).specification else 'no')
+    
+    selected_colors = request.GET.getlist('colors','')
+    selected_brands = request.GET.getlist('brands','')
+    order_by = request.GET.get('order_by','-created_date')
+    min_price = request.GET.get('min_price',0)
+    max_price = request.GET.get('max_price',1000000000)
 
+    products = Product.objects.filter(is_show=True,price__gte=float(min_price),price__lte=float(max_price))
+    category = None
+    if cat_id:
+        category = Category.objects.get(id=cat_id)
+        products = products.filter(category=category)
 
-        # form = ProductFilterForm(request.GET)
-        # if form.is_valid():
-            # colors = form.clean_brands()
-            # brands_id= form.cleaned_data('brands')
-            # products.filter(specification__in = colors ,brand__id__in=brands_id)
-        #     print(products)
-        # else:
-        #     print(form.errors)
-            
-
+    if selected_brands:
+        products = products.filter(brand__name__in=selected_brands)
+    if selected_colors:
+        products = products.filter(color__in=selected_colors)
+    if order_by:
+        products = products.order_by(order_by)
 
     context = {
         'products' : products,
         'categories' : categories,
         'brands' : brands,
-
+        'selected_colors' : selected_colors,
+        'selected_brands' : selected_brands,
+        'min_price' : min_price,
+        'max_price' : max_price,
+        'category' : category,
+        'order_by' : order_by
     }
     return render(request,'list-view.html',context)
