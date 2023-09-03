@@ -1,3 +1,5 @@
 47 min home model finish
 15 min home page (static)
 1 h footer and header full dynamic
+
+++30 min

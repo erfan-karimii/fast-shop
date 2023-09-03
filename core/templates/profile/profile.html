@@ -1,0 +1,76 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block body %}
+<!-- main -->
+<main class="profile-user-page default space-top-30">
+    <div class="container">
+        <div class="row">
+            <div class="profile-page col-xl-9 col-lg-8 col-md-12 order-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <header class="card-header">
+                            <h3 class="card-title"><span>اطلاعات حساب کاربری</span></h3>
+                        </header>
+                        <div class="content-section default">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title">نام  :</span>
+                                        <span>{{profile.first_name|default:"(نامشخص)"}} </span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title"> نام خانوادگی :</span>
+                                        <span>
+                                            {{profile.last_name|default:"(نامشخص)"}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title">پست الکترونیک :</span>
+                                        <span>{{request.user.email|default:"(نامشخص)"}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title">شماره تلفن همراه :</span>
+                                        <span>{{profile.phone_number|default:"(نامشخص)"}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title">کد پستی :</span>
+                                        <span>{{profile.zip_code|default:"(نامشخص)"}}</span>
+                                    </p>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6">
+                                    <p>
+                                        <span class="title">کد ملی :</span>
+                                        <span>{{profile.national_code|default:"(نامشخص)"}}</span>
+                                    </p>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <a href="{% url 'account:profile_edit' %}" class="btn btn-main-masai big_btn">
+                                        ویرایش
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+
+            {% render_partial 'account:sidebar' %}
+        
+        </div>
+    </div>
+</main>
+<!-- main -->
+{% endblock body %}

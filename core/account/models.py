@@ -36,6 +36,7 @@ class UserManager(BaseUserManager):
     
         return self.create_user(email,password,**extra_fields)
 
+
 class User(AbstractBaseUser,PermissionsMixin):
     '''
     Custom User Model for our app
@@ -59,8 +60,11 @@ class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     first_name  = models.CharField(max_length=255)
     last_name  = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=20,null=True)
+    zip_code = models.CharField(max_length=30,null=True)
+    national_code = models.CharField(max_length=10,null=True)
     image = models.ImageField(null=True,blank=True)
-    description = models.TextField()
+    send_add_email = models.BooleanField(default=True) 
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)

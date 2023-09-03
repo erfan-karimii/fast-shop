@@ -1,0 +1,119 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block body %}
+<!-- main -->
+<main class="profile-user-page default space-top-30">
+    <div class="container">
+        <div class="row">
+            
+            <div class="main-content login_content col-xl-9 col-lg-8 col-md-12 order-2 mx-auto">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <header class="card-header">
+                            <h3 class="card-title"><span>اطلاعات حساب شخصی</span></h3>
+                        </header>
+                        <div class="login_box">
+
+
+
+                            <form class="" id="information-form" method='post' action="{% url 'account:check_profile_edit' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>(ثابت)</span> ایمیل</div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" type="text" value="{{request.user.email}}" placeholder="مثال:admin123@gmail.com" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>*</span> نام  </div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" name="first_name" type="text" value="{{profile.first_name|default:""}}" placeholder="مثال: رضا ">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>*</span> نام خانوادگی </div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" name="last_name" type="text" value="{{profile.last_name|default:""}}" placeholder="مثال: امینی">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>*</span> شماره همراه </div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" name="phone_number" type="text" value="{{profile.phone_number|default:""}}" placeholder="مثال: 0911">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <header class="card-header">
+                            <h3 class="card-title"><span></span></h3>
+                        </header>
+                        <div class="login_box">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>*</span> کد پستی</div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" type="text" name="zip_code" value="{{profile.zip_code|default:""}}" placeholder=" کد پستی شما">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>*</span> کد ملی </div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" type="text" name="national_code"  value="{{profile.national_code|default:""}}" placeholder="مثال: کد ملی شما">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-account-title"><span>(اختیاری)</span> عکس</div>
+                                        <div class="form-account-row">
+                                            <input class="input_second input_all" name="image" type="file">
+                                            {% if profile.image %}
+                                            درحال حاضر : <a href="{{profile.image.url}}" target="_blank">عکس شما</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-account-agree">
+                                            <label class="checkbox-form checkbox-primary">
+                                                <input type="checkbox" id="agree" name="send_add_email" {% if profile.send_add_email %}checked{% endif %}>
+                                                <span class="checkbox-check"></span>
+                                            </label>
+                                            <label for="agree"> تمایل به دریافت ایمیل تبلیغاتی دارم</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-12 text--center">
+                        <button href="#" class="btn big_btn btn-main-masai" id="submit-form-button">ثبت اطلاعات کاربری </button>
+                    </div>
+                </div>
+            </div>
+            
+            {% render_partial 'account:sidebar' %}
+
+        </div>
+    </div>
+</main>
+<!-- main -->
+{% endblock body %}
+
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+        $('#submit-form-button').click(function(e){
+            e.preventDefault()
+            document.getElementById("information-form").submit();
+        })
+    });
+</script>
+{% endblock js %}

@@ -1,12 +1,13 @@
 from django.contrib.auth.password_validation import validate_password
 from typing import Any, Dict
 from django import forms
-from .models import User
+from .models import User , Profile
 
     
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField()
+
 
 class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(max_length=255,)
@@ -25,3 +26,8 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError({'password':list(e.messages)})
         return super().clean()
 
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ('user',)
