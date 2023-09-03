@@ -54,6 +54,7 @@ class Product(models.Model):
     def in_stock(self):
         return bool(self.count)
 
+
 class PhotoGallery(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE) 
     image = models.ImageField(verbose_name="عکس محصول")
@@ -72,4 +73,7 @@ class Comment(models.Model):
         return self.title
             
 
-    
+class WishList(models.Model):
+    product = models.ManyToManyField(Product)
+    profile = models.ForeignKey("account.Profile",on_delete=models.CASCADE)
+         
