@@ -1,8 +1,9 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth import authenticate, login ,logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .forms import RegisterForm , LoginForm , ProfileEditForm
+from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
 from .models import User,Profile
 # Create your views here.
 
@@ -23,7 +24,7 @@ def check_login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('account:welcome')
+                return redirect(request.GET.get('next') or 'account:welcome')
             else:
                 messages.error(request,'.کاربری با مشخصات وارده پیدا نشد')
                 return redirect('account:login')
@@ -40,7 +41,7 @@ def welcome_page_view(request):
     }
     return render(request,'account/welcome.html',context)
 
-
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('home:home')
@@ -68,6 +69,34 @@ def check_register_view(request):
             return redirect('account:register')
 
 
+@login_required
+def reset_password_view(request):
+    return render(request,'account/reset-password.html')
+
+@login_required
+def check_reset_password_view(request):
+    if request.method == 'POST':
+        form = ResetPassword(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            last_password = form.cleaned_data['last_password']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=request.user.email, password=last_password)
+            if user is not None:
+                user.set_password(password)
+                user.save()
+                messages.success(request,'.پسورد شما با موفقیت تغییر پیدا کرد')
+                return redirect('account:login')
+            else:
+                messages.error(request,'.کاربری با مشخصات وارده پیدا نشد')
+                return redirect('account:reset_password')
+
+        else:
+            messages.error(request,form.errors)
+            return redirect('account:reset_password')
+
+
+@login_required
 def profile_view(request):
     profile = Profile.objects.get(user=request.user)
     context = {
@@ -75,7 +104,7 @@ def profile_view(request):
     }
     return render(request,'profile/profile.html',context)
 
-
+@login_required
 def sidebar_view(request):
     profile = Profile.objects.get(user=request.user)
 
@@ -84,7 +113,7 @@ def sidebar_view(request):
     }
     return render(request,'profile/sidebar.html',context)
 
-
+@login_required
 def profile_edit_view(request):
     profile = Profile.objects.get(user=request.user)
 
@@ -93,7 +122,7 @@ def profile_edit_view(request):
     }
     return render(request,'profile/edit-profile.html',context)
 
-
+@login_required
 def check_profile_edit_view(request):
     if request.method == 'POST':
         print(request.POST,request.FILES)

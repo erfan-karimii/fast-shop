@@ -10,6 +10,8 @@ urlpatterns = [
     path('logout/',views.logout_view,name="logout"),
     path('register/',views.register_view,name="register"),
     path('check_register/',views.check_register_view,name="check_register"),
+    path('reset_password/',views.reset_password_view,name="reset_password"),
+    path('check_reset_password/',views.check_reset_password_view,name="check_reset_password"),
     path('welcome/',views.welcome_page_view,name="welcome"),
 
     #profile

@@ -3,7 +3,11 @@
     <div class="profile-card-1">
         <!--image-->
         <div class="img">
+            {% if profile.image %}
             <img src="{{profile.image.url}}" />
+            {% else %}
+            <img src="{% static 'assets/img/profile/1.png' %}" />
+            {% endif %}
         </div>
         <a class="view-more" href="{% url 'account:profile_edit' %}">
             <i class="fa fa-plus-circle"></i>
@@ -143,9 +147,15 @@
                 </a>
             </li>
             <li>
-                <a href="password-update.html" class="dropdown-item">
+                <a href="{% url 'account:reset_password' %}" class="dropdown-item">
                     <i class="fa fa-shield colormain" aria-hidden="true"></i>
-                    امنیت و تغییر رمز
+                     تغییر رمز عبور
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'account:logout' %}" class="dropdown-item">
+                    <i class="fa fa-shield colormain" aria-hidden="true"></i>
+                     خروج از حساب کاربری
                 </a>
             </li>
             
