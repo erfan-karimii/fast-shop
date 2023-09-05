@@ -41,53 +41,36 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for product in products %}
                             <tr class="cart_item">
                                 <td>
-                                    <img src="{% static 'assets/img/product_img/p_9.jpg' %}" alt="">
+                                    <img src="{{product.image.url}}" alt="{{product.alt}}">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </td>
                                 <td>
                                     <h3 class="cart_title">
                                         <a href="#">
-                                            شیائومی مدل Poco X4
+                                            {{product.name}}
                                         </a>
                                     </h3>
                                     <div class="cart_content">
-                                        <div><span>بیمه </span><span  class="item_property">پارسیان</span></div>
-                                        <span class="cart_divider"></span>
-                                        <div><span>رنگ </span><span  class="item_property">مشکی</span></div>
+
+                                        <div><span>رنگ </span><span  class="item_property" style="background-color: {{product.color}};">{{product.color}}</span></div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="cart_price">
-                                        <del><span>1,599,000<span>تومان</span></span></del>
-                                        <ins><span>1,180,000<span>تومان</span></span></ins>
+                                        {% if product.discount %}
+                                        <del><span>{{product.price}}<span>تومان</span></span></del>
+                                        {% endif %}
+                                        <ins><span>{{product.main_discount_call}}<span>تومان</span></span></ins>
                                     </div>
                                 </td>
-                                <td><input type="number" class="tedad" value="1" /></td>
-                                <td class="price_alltd"> ۱۵,۳۹۰,۰۰۰ <span>تومان</span></td>
+                                <td><input type="number" class="tedad" value="{{product.customer_count}}" /></td>
+                                <td class="price_alltd"> {% widthratio product.main_discount_call 1 product.customer_count  %} <span>تومان</span></td>
                             </tr>
-                            <tr class="cart_item">
-                                <td>
-                                    <img src="{% static 'assets/img/product_img/p_6.jpg' %}" />
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </td>
-                                <td>
-                                    <h3 class="cart_title">
-                                        <a href="#">
-                                            ساعت هوشمند امیزفیت 
-                                        </a>
-                                    </h3>
-                                </td>
-                                <td>
-                                    <div class="cart_price">
-                                        <del><span>1,599,000<span>تومان</span></span></del>
-                                        <ins><span>1,180,000<span>تومان</span></span></ins>
-                                    </div>
-                                </td>
-                                <td><input type="number" class="tedad" value="1" /></td>
-                                <td class="price_alltd"> 29,45۰,۰۰۰ <span>تومان</span></td>
-                            </tr>
+                            {% endfor %}
+
                         </tbody>
                     </table>
                 </div>
@@ -129,7 +112,7 @@
                             </tbody>
                         </table>
                     </div>
-                    </div>
+                </div>
             </div>
                 
             </div>

@@ -4,13 +4,12 @@ from django.core.exceptions import ValidationError
 import re
 # Create your models here.
 
-
-
 def validate_phone_number(value):
     if  not bool(re.compile("^(?:0|98|\+98|\+980|0098|098|00980)?(9\d{9})$").match(value)):
         raise ValidationError(
             _('number is not valid'),
         )
+
 
 class Order(models.Model):
     profile = models.ForeignKey('account.Profile',on_delete=models.CASCADE)
@@ -28,6 +27,7 @@ class Order(models.Model):
     def __str__(self):
         return str(self.profile) + " ////////// " + str(self.id)
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE)
     product = models.ForeignKey('product.Product',on_delete=models.CASCADE)
@@ -36,3 +36,4 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.order.id) + " ////////// " + self.product.name
+    
