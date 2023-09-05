@@ -191,7 +191,7 @@
                                             <div class="product-seller-details product-seller-details-item-grid">
                                                 <span class="search_prod_icon">
                                                     <i class="fa fa-search search_icon_search" aria-hidden="true"></i>
-                                                    <i class="fa fa-heart search_icon_like" aria-hidden="true"></i>
+                                                    <i class="fa fa-heart search_icon_like" aria-hidden="true" data-product_id="{{product.id}}"></i>
                                                 </span>
                                                 
 
@@ -249,6 +249,22 @@
             document.getElementById("filter-form").submit();
         });
         $('#{{order_by}}').addClass("active");
+        $('.fa-heart').click(function(){
+            let product_id = $(this).data('product_id')
+            $.ajax({
+                type : 'GET',
+                url : '{% url "product:add-to-wishlist" %}',
+                data : {'product_id':product_id}, 
+                dataType : 'json', 
+                success : function (data) { 
+                    Swal.fire({
+                        icon: data.icon,
+                        text: data.message,
+                    })
+                },
+                error: function(data){ alert('error'); }
+            })
+        });
 
     });
 </script>

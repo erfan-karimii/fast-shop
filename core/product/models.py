@@ -74,6 +74,9 @@ class Comment(models.Model):
             
 
 class WishList(models.Model):
+    profile = models.OneToOneField("account.Profile",on_delete=models.CASCADE)
     product = models.ManyToManyField(Product)
-    profile = models.ForeignKey("account.Profile",on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.id) + " " +  self.profile.get_fullname()
          

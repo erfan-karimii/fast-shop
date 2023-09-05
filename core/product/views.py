@@ -1,7 +1,10 @@
 from django.shortcuts import render , get_object_or_404 , redirect 
 from django.urls import reverse
-from django.db.models import Q
-from .models import Product , Category
+from django.http import JsonResponse
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from .models import Product , Category , WishList
 from .forms import CommentForm , ProductFilterForm
 from home.models import TemplateSettings , Brand
 from account.models import Profile 
@@ -22,7 +25,8 @@ def detail_view(request,id):
     }
     return render(request,'single-product.html',context)
 
-def validate_comment(request):
+@login_required
+def validate_comment_view(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         product = get_object_or_404(Product,id=product_id)
@@ -38,6 +42,7 @@ def validate_comment(request):
             print(form.errors)
             
         return redirect(reverse("product:detail-view",args=[product_id]))
+
 
 def list_view(request,cat_id=None):
     categories = Category.objects.all()[:6]
@@ -74,3 +79,49 @@ def list_view(request,cat_id=None):
         'order_by' : order_by
     }
     return render(request,'list-view.html',context)
+
+@login_required
+def wishlist_view(request):
+    profile = Profile.objects.get(user=request.user)
+    wishlist = WishList.objects.get(profile=profile)
+    context = {
+        'wishlist' : wishlist,
+
+    }
+    return render(request,'profile/profile-favorites.html',context)
+
+@login_required
+def remove_from_wishlist_view(request,id):
+    product = Product.objects.get(id=id)
+    profile = Profile.objects.get(user=request.user)
+    
+    wishlist = WishList.objects.get(profile=profile)
+    if product in wishlist.product.all():
+        wishlist.product.remove(product)
+        messages.success(request,"محصول از لیست علاقه مندی شما حذف شد.")
+        return redirect('product:wishlist')  
+
+
+def add_to_wishlist_ajax(request):
+    if request.user.is_anonymous :
+        message = 'لطفا برای افزودن محصول به لیست علاقه مندی های خود , وارد حساب کاربری خود شوید.'
+        icon = 'error'
+        return JsonResponse({'message':message,'icon':icon})
+    
+    product_id = request.GET.get('product_id')
+    product = Product.objects.get(id=product_id)
+    profile = Profile.objects.get(user=request.user)
+    
+    wishlist , created = WishList.objects.get_or_create(profile=profile)
+    if product in wishlist.product.all():
+        wishlist.product.remove(product)
+        message = "محصول از لیست علاقه مندی شما حذف شد."
+        icon = 'info'
+    else:
+        wishlist.product.add(product)
+        message = "محصول به لیست علاقه مندی شما اضافه شد."
+        icon = 'success'
+    wishlist.save()
+    return JsonResponse({'message':message,'icon':icon})
+
+    

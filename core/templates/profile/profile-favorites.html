@@ -1,0 +1,62 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+
+{% block body %}
+<!-- main -->
+<main class="order-delivered default space-top-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-8 col-md-12 order-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <header class="card-header">
+                            <h3 class="card-title"><span>محصولات مورد علاقه</span></h3>
+                        </header>
+                        <div class="content-section default">
+                            <div class="row">
+                                {% for product in wishlist.product.all %}
+                                <div class="col-md-6 col-sm-12 order_delivered_sec">
+                                    <div class="profile-recent-fav-row">
+                                        <div class="col-12 text--center">
+                                            <img src="{{product.image.url}}" class="max_w200">
+                                        </div>
+                                        <div class="col-12">
+                                            <h4 class="profile-recent-fav-name_sec">
+                                                {{product.name}}
+                                            </h4>
+                                            {% if product.count < 10 %}
+                                            <h4 class="profile-recent-limit">
+                                                <i class="fa fa-ban" aria-hidden="true"></i> تنها {{product.count}} عدد در انبار باقی مانده                                                
+                                            </h4>
+                                            {% elif product.count %}
+                                            <h4 class="profile-recent-today">
+                                                <i class="fa fa-truck" aria-hidden="true"></i> اماده ارسال
+                                            </h4>
+                                            {% else %}
+                                            <h4 class="profile-recent-limit">
+                                                <i class="fa fa-ban" aria-hidden="true"></i> ناموجود                                              
+                                            </h4>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-6 text-left">
+                                            <a class="btn btn-main-masai"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> افزودن به سبد</a>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <a href="{% url 'product:remove_from_wishlist' id=product.id %}" class="btn btn-second-masai"><i class="fa fa-trash" aria-hidden="true"></i> حذف از لیست</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% render_partial 'account:sidebar' %}
+        </div>
+    </div>
+</main>
+<!-- main -->
+{% endblock body %}

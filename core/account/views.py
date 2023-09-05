@@ -44,6 +44,7 @@ def welcome_page_view(request):
 @login_required
 def logout_view(request):
     logout(request)
+    messages.error(request,'شما از حساب کاربری خود خارج شدید.')
     return redirect('home:home')
 
 
@@ -136,3 +137,5 @@ def check_profile_edit_view(request):
         
         return redirect("account:profile")
         
+
+
