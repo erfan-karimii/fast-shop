@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser , BaseUserManager ,Permi
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from cart.models import validate_phone_number
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -60,7 +61,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     first_name  = models.CharField(max_length=255)
     last_name  = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=20,null=True)
+    phone_number = models.CharField(max_length=20,null=True,validators=[validate_phone_number],)
     zip_code = models.CharField(max_length=30,null=True)
     national_code = models.CharField(max_length=10,null=True)
     image = models.ImageField(null=True,blank=True)
