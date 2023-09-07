@@ -2,7 +2,6 @@
 {% load static %}
 {% load render_partial %}
 
-
 {% block body %}
 <!-- main -->
 <main class="order-delivered default space-top-30">
@@ -12,22 +11,16 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <header class="card-header">
-                            <h3 class="card-title"><span>سفارشات در جریان</span></h3>
+                            <h3 class="card-title"><span>سفارشات لغو شده</span></h3>
                         </header>
                         <div class="content-section default">
                             <div class="row">
                                 {% for order in orders %}
-                                <div class="col-md-12 col-sm-12 order_delivered_sec">
+                                <div class="col-md-6 col-sm-12 order_delivered_sec">
                                     <div class="profile-recent-fav-row">
-                                        <div class="col-12">
+                                        <div class="col-12">                                                
                                             <h4 class="profile-recent-fav-name">
-                                                {% if order.order_status == 'in_proccesing' %}
-                                                <i class="fa fa-spinner" aria-hidden="true"></i> پردازش انبار
-                                                
-                                                {% elif order.order_status == 'sended' %}
-                                                <i class="fa fa-truck" aria-hidden="true"></i> خروج از انبار
-                                                
-                                                {% endif %}
+                                                <i class="fa fa-times-circle color_cancelled" aria-hidden="true"></i> لغو شده
                                             </h4>
                                             <ul>
                                                 <li>
@@ -38,31 +31,21 @@
                                                 </li>
                                                 <li>
                                                     مجموع سبد <b>{{order.paid_amount}} تومان</b>
-
                                                 </li>
                                             </ul>
-                                            <h4 class="profile-recent-Club">
-                                                <i class="fa fa-gift" aria-hidden="true"></i> امتیاز مسای‌کلاب <b>0</b>
-                                            </h4>
                                         </div>
                                         
                                         <div class="col-12">
                                             <div class="row">
                                                 {% for orderitem in order.orderitem_set.all %}
-                                                <div class="col-4 col-lg-1 col-md-1">
+                                                <div class="col-4 col-lg-2 col-md-2">
                                                     <img src="{{orderitem.product.image.url}}">
                                                 </div>
-                                                {% endfor %}
+                                                {% endfor %}                                                
                                             </div>
                                         </div>
+
                                         <div class="col-12 text-left">
-                                            {% if order.order_status == 'in_proccesing' %}
-                                            <a href="{% url 'account:cancel_order' %}?order_id={{order.id}}" class="btn btn-error-masai">لغو سبد</a>
-
-                                            {% elif order.order_status == 'sended' %}
-                                            <a href="{% url 'account:product_received' %}?order_id={{order.id}}" class="btn btn-second-masai">تایید گرفتن محصول</a>
-
-                                            {% endif %}
                                             <a class="btn btn-second-masai">مشاهده فاکتور</a>
                                             <a class="btn btn-main-masai">مشاهده جزئیات</a>
                                         </div>
@@ -78,5 +61,5 @@
         </div>
     </div>
 </main>
+<!-- main -->
 {% endblock body %}
-

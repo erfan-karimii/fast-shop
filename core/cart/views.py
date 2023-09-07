@@ -108,7 +108,7 @@ def remove_from_cart_view(request,**kwargs):
 @login_required    
 @check_cookies('orderdetail')
 def confirm_order_view(request,**kwargs):
-    if kwargs.get('orderdetail'):
+    if kwargs.get('orderdetail') and request.COOKIES.get('orderdetail') != '{}':
         orderdetail = ast.literal_eval(request.COOKIES.get('orderdetail'))
         products = Product.objects.filter(id__in=orderdetail.keys())
         total_price = 0
@@ -177,7 +177,9 @@ def successful_payment_view(request,**kwargs):
         total_price = 0
         for product in products :
             product.customer_count = orderdetail[product.id]
+            product.count -= product.customer_count
             total_price += product.calculate_price(product.customer_count)
+            product.save()
 
         order_cookie = request.COOKIES.get('order')
         order = ast.literal_eval(order_cookie)
@@ -205,5 +207,3 @@ def successful_payment_view(request,**kwargs):
 
 def unsuccessful_payment_view(request):
     return render(request,'unsuccessful-payment.html')
-
-

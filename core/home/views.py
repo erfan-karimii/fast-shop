@@ -14,12 +14,12 @@ def home_view(request):
 
 @check_cookies('orderdetail')
 def header_view(request,**kwargs):
-    if kwargs.get('orderdetail') :
+    if kwargs.get('orderdetail') and request.COOKIES.get('orderdetail') != '{}' :
         orderdetail = ast.literal_eval(request.COOKIES.get('orderdetail'))
         products = Product.objects.filter(id__in=orderdetail.keys())[:2]
-        counts = list(orderdetail.values())
-        for index,product in enumerate(products) :
-            product.customer_count = counts[index]
+
+        for product in products :
+            product.customer_count = orderdetail[product.id]
     else:
         products = []
     

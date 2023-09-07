@@ -19,7 +19,15 @@ urlpatterns = [
     path('sidebar/',views.sidebar_view,name="sidebar"),
     path('profile_edit/',views.profile_edit_view,name="profile_edit"),
     path('check_profile_edit/',views.check_profile_edit_view,name="check_profile_edit"),
+    
     path('current_order/',views.current_order_view,name="current_order"),
+    path('delivered_order/',views.delivered_order_view,name="delivered_order"),
+    path('cancelled_order/',views.cancelled_order_view,name="cancelled_order"),
+
     path('message_page/',views.message_page_view,name="message_page"),
+    path('product_received/',views.product_received_view,name="product_received"),
+    path('cancel_order/',views.cancel_order_view,name="cancel_order"),
+
+
 
 ]

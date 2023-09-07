@@ -18,15 +18,15 @@
             <div class="line"></div>
             <div class="stats">
                 <div class="stat">
-                    2
+                    {{current_orders_count}}
                     <div class="subtext">سفارش جاری</div>
                 </div>
                 <div class="stat">
-                    68
+                    {{delivered_orders_count}}
                     <div class="subtext">تحویل داده</div>
                 </div>
                 <div class="stat">
-                    15
+                    {{cancelled_orders_count}}
                     <div class="subtext">مرجوع شده</div>
                 </div>
             </div>
@@ -92,56 +92,50 @@
     <div class="profile-menu">
         <ul class="profile-menu-items">
             <li>
-                <a href="{% url 'account:profile' %}" class="dropdown-item active">
+                <a href="{% url 'account:profile' %}" id="profile" class="dropdown-item">
                     <i class="fa fa-user-large colormain"></i>
                     پروفایل
                 </a>
             </li>
             <li>
-                <a href="{% url 'product:wishlist' %}" class="dropdown-item">
+                <a href="{% url 'product:wishlist' %}" id="wishlist" class="dropdown-item">
                     <i class="fa fa-bookmark colormain" aria-hidden="true"></i>
                     لیست علاقه مندی ها
                 </a>
             </li>
             <li>
-                <a href="order-delivered.html" class="dropdown-item ">
+                <a href="{% url 'account:delivered_order' %}" id="delivered_order" class="dropdown-item ">
                     <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>
                     تحویل داده شده
                 </a>
             </li>
             <li>
-                <a href="{% url 'account:current_order' %}" class="dropdown-item ">
+                <a href="{% url 'account:current_order' %}" id="current_order" class="dropdown-item ">
                     <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>    
                     سفارش جاری
                 </a>
             </li>
             <li>
-                <a href="order-cancelled.html" class="dropdown-item">
+                <a href="{% url 'account:cancelled_order' %}" id="cancelled_order" class="dropdown-item">
                     <i class="fa fa-times colormain" aria-hidden="true"></i>
                     لغو شده
                 </a>
             </li>
             <li>
-                <a href="orders-return.html" class="dropdown-item">
-                    <i class="fa fa-thumbs-down colormain" aria-hidden="true"></i>
-                    مرجوع محصول
-                </a>
-            </li>
-            <li>
-                <a href="order-message.html" class="dropdown-item">
+                <a href="{% url 'account:message_page' %}" id="message_page" class="dropdown-item">
                     <i class="fa fa-bell colormain" aria-hidden="true"></i>
                     پیغام ها
                 </a>
             </li>
             
             <li>
-                <a href="{% url 'account:profile_edit' %}" class="dropdown-item">
+                <a href="{% url 'account:profile_edit' %}" id="profile_edit" class="dropdown-item">
                     <i class="fa fa-pencil colormain" aria-hidden="true"></i>
                     ویرایش اطلاعات
                 </a>
             </li>
             <li>
-                <a href="{% url 'account:reset_password' %}" class="dropdown-item">
+                <a href="{% url 'account:reset_password' %}" id="reset_password" class="dropdown-item">
                     <i class="fa fa-shield colormain" aria-hidden="true"></i>
                      تغییر رمز عبور
                 </a>
@@ -156,3 +150,4 @@
         </ul>
     </div>
 </div>
+

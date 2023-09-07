@@ -2,6 +2,8 @@ from django.shortcuts import render , redirect
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
+
 
 from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
 from .models import User,Profile , ProfileMessage
@@ -75,6 +77,7 @@ def check_register_view(request):
 def reset_password_view(request):
     return render(request,'account/reset-password.html')
 
+
 @login_required
 def check_reset_password_view(request):
     if request.method == 'POST':
@@ -109,8 +112,14 @@ def profile_view(request):
 @login_required
 def sidebar_view(request):
     profile = Profile.objects.get(user=request.user)
+    delivered_orders_count = Order.objects.filter(profile=profile,order_status='delivered').count()
+    cancelled_orders_count = Order.objects.filter(profile=profile,order_status='cancelled').count()
+    current_orders_count = Order.objects.filter(Q(profile=profile) & (Q(order_status='in_proccesing')|Q(order_status='sended'))).count()
 
     context = {
+        "cancelled_orders_count":cancelled_orders_count,
+        "delivered_orders_count":delivered_orders_count,
+        "current_orders_count":current_orders_count,
         'profile' : profile,
     }
     return render(request,'profile/sidebar.html',context)
@@ -143,17 +152,73 @@ def check_profile_edit_view(request):
 @login_required
 def current_order_view(request):
     profile = Profile.objects.get(user=request.user)
-    orders = Order.objects.filter(profile=profile)
+    orders = Order.objects.filter(Q(profile=profile) & (Q(order_status='in_proccesing')|Q(order_status='sended')))
     context = {
         'orders' : orders , 
     }
     return render(request,'profile/order-current.html',context)
 
 
+@login_required
+def cancelled_order_view(request):
+    profile = Profile.objects.get(user=request.user)
+    orders = Order.objects.filter(profile=profile,order_status='cancelled')
+    context = {
+        'orders' : orders , 
+    }
+    return render(request,'profile/order-cancelled.html',context)
+
+
+@login_required
+def delivered_order_view(request):
+    profile = Profile.objects.get(user=request.user)
+    orders = Order.objects.filter(profile=profile,order_status='delivered')
+    context = {
+        'orders' : orders , 
+    }
+
+    return render(request,'profile/order-delivered.html',context)
+
+
+
+@login_required
 def message_page_view(request):
     profile = Profile.objects.get(user=request.user)
-    messages = ProfileMessage.objects.filter(profile=profile) 
+    profile_messages = ProfileMessage.objects.filter(profile=profile).order_by('-created_date') 
     context = {
-        'messages' : messages
+        'profile_messages' : profile_messages
     }
-    return render(request,'order-message.html',context)
+    return render(request,'profile/order-message.html',context)
+
+
+@login_required
+def product_received_view(request):
+    order_id = request.GET.get('order_id',None)
+    user_profile = Profile.objects.get(user=request.user)
+    order = Order.objects.get(id=order_id)
+
+    if order_id and order.profile == user_profile:
+        order.order_status = 'delivered'
+        order.save()
+    
+    message = f'سفارش شما با کد {order.shopping_id} تحویل داده شد .تجربه خریدت برامون مهمه.'
+    ProfileMessage.objects.create(profile = user_profile,message = message)
+    messages.success(request,message)
+    return redirect('account:profile')
+ 
+
+@login_required
+def cancel_order_view(request):
+    order_id = request.GET.get('order_id',None)
+    user_profile = Profile.objects.get(user=request.user)
+    order = Order.objects.get(id=order_id)
+
+    if order_id and order.profile == user_profile:
+        order.order_status = 'cancelled'
+        order.save()
+    
+    message = f'سفارش شما با کد {order.shopping_id}لغو شد .هزینه سفارش شما طی 72 ساعت کاری آینده به حساب شما واریز خواهد شد..'
+    ProfileMessage.objects.create(profile = user_profile,message = message)
+    messages.error(request,message)
+    return redirect('account:profile')
+

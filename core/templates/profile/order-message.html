@@ -16,7 +16,7 @@
                         </header>
                         <div class="content-section default">
                             <div class="row">
-                                {% for msg in messages %}
+                                {% for msg in profile_messages %}
                                 <div class="col-md-6 col-sm-6 order_delivered_sec">
                                     <div class="row">
                                         <div class="col-12 col-lg-12 col-md-12">
@@ -24,7 +24,7 @@
                                             <h4 class="profile-recent-fav-name">
                                                 <i class="fa fa-bell " aria-hidden="true"></i> {{msg.message}}
                                             </h4>
-                                            <span class="span-sub-bel">{{order.payment_date.day}}/{{order.payment_date.month}}/{{order.payment_date.year}}</span>
+                                            <span class="span-sub-bel">{{msg.created_date.day}}/{{msg.created_date.month}}/{{msg.created_date.year}}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -1,8 +1,7 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
 {% load render_partial %}
-
-
+            
 {% block body %}
 <!-- main -->
 <main class="order-delivered default space-top-30">
@@ -12,7 +11,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <header class="card-header">
-                            <h3 class="card-title"><span>سفارشات در جریان</span></h3>
+                            <h3 class="card-title"><span>تحویل داده شده</span></h3>
                         </header>
                         <div class="content-section default">
                             <div class="row">
@@ -20,15 +19,10 @@
                                 <div class="col-md-12 col-sm-12 order_delivered_sec">
                                     <div class="profile-recent-fav-row">
                                         <div class="col-12">
-                                            <h4 class="profile-recent-fav-name">
-                                                {% if order.order_status == 'in_proccesing' %}
-                                                <i class="fa fa-spinner" aria-hidden="true"></i> پردازش انبار
                                                 
-                                                {% elif order.order_status == 'sended' %}
-                                                <i class="fa fa-truck" aria-hidden="true"></i> خروج از انبار
-                                                
-                                                {% endif %}
-                                            </h4>
+                                                <h4 class="profile-recent-fav-name">
+                                                    <i class="fa fa-check-circle" aria-hidden="true"></i> تحویل داده شده
+                                                </h4>
                                             <ul>
                                                 <li>
                                                     {{order.payment_date.day}}/{{order.payment_date.month}}/{{order.payment_date.year}} 
@@ -53,16 +47,9 @@
                                                     <img src="{{orderitem.product.image.url}}">
                                                 </div>
                                                 {% endfor %}
-                                            </div>
+                                            </div>                                            
                                         </div>
                                         <div class="col-12 text-left">
-                                            {% if order.order_status == 'in_proccesing' %}
-                                            <a href="{% url 'account:cancel_order' %}?order_id={{order.id}}" class="btn btn-error-masai">لغو سبد</a>
-
-                                            {% elif order.order_status == 'sended' %}
-                                            <a href="{% url 'account:product_received' %}?order_id={{order.id}}" class="btn btn-second-masai">تایید گرفتن محصول</a>
-
-                                            {% endif %}
                                             <a class="btn btn-second-masai">مشاهده فاکتور</a>
                                             <a class="btn btn-main-masai">مشاهده جزئیات</a>
                                         </div>
@@ -78,5 +65,5 @@
         </div>
     </div>
 </main>
+<!-- main -->
 {% endblock body %}
-

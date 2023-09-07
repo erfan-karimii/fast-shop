@@ -17,6 +17,7 @@ class Order(models.Model):
         ('in_proccesing' , 'در حال پردازش انبار'),
         ('sended' , 'خروج از انبار'),
         ('delivered' , 'تحویل داده شد'),
+        ('cancelled' , 'لغو شده'),
     )
     shopping_id = models.SlugField(unique=True, blank=True,null=True,db_index=True)
     profile = models.ForeignKey('account.Profile',on_delete=models.CASCADE)
