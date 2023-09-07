@@ -104,39 +104,33 @@
 
                             
                             <ul class="m_cart-list">
+                                {% for product in products %}
                                 <li class="m_cart_li1">
-                                    <a href="single-product.html" class="m_cart-item">
+                                    <a href="{% url 'product:detail-view' id=product.id %}" class="m_cart-item">
                                         <i class="fa fa-times" aria-hidden="true"></i>
-
-                                     
                                         <div class="m_cart-item-content">
                                             <div class="m_cart-item-image">
-                                                <img src="{% static 'assets/img/product_img/p_6.jpg' %}" />
+                                                <img src="{{product.image.url}}" />
                                             </div>
                                             <div class="m_cart-item-details">
                                                 <div class="m_cart-item-title">
-                                                    ساعت هوشمند امیزفیت 
+                                                    {{product.name}}
                                                 </div>
                                                 <div class="m_cart-item-params">
                                                     <div class="m_cart-item-props">
-                                                        <span>تعداد : 2</span>
-                                                        <span>رنگ: سبز ارتشی</span>
+                                                        <span>تعداد : {{product.customer_count}}</span>
+                                                        <span style="background-color: {{product.color}};">رنگ: {{product.color}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </li>
+                                {% endfor %}
+
                             </ul>
-                            <div class="m_cart-header">
-                                <div class="m_cart-total">
-                                    <span>مجموع سبد:</span>
-                                    <span> ۳۵,۲۵۳,۵۰۰</span>
-                                    <span> تومان</span>
-                                </div>
-                            </div>
                             <div class="btn_cart">
-                                <a href="cart.html" class="btn btn_sabad">مشاهده سبد</a>
+                                <a href="{% url 'cart:cart' %}" class="btn btn_sabad">مشاهده کامل سبد</a>
                                 <a href="Final-payment.html" class="btn btn_pardakht btn-main-masai">پرداخت</a>
                             </div>
                         </div>

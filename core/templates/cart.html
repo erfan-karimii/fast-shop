@@ -38,6 +38,7 @@
                                 <th scope="col">قیمت واحد</th>
                                 <th scope="col">تعداد</th>
                                 <th scope="col">قیمت نهایی</th>
+                                <th scope="col">به روزرسانی</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,11 +46,13 @@
                             <tr class="cart_item">
                                 <td>
                                     <img src="{{product.image.url}}" alt="{{product.alt}}">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    <a href="{% url 'cart:remove_from_cart' %}?product_id={{product.id}}">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
                                 </td>
                                 <td>
                                     <h3 class="cart_title">
-                                        <a href="#">
+                                        <a href="{% url 'product:detail-view' id=product.id %}">
                                             {{product.name}}
                                         </a>
                                     </h3>
@@ -66,8 +69,9 @@
                                         <ins><span>{{product.main_discount_call}}<span>تومان</span></span></ins>
                                     </div>
                                 </td>
-                                <td><input type="number" class="tedad" value="{{product.customer_count}}" /></td>
+                                <td><input type="number" class="tedad" value="{{product.customer_count}}" id="{{product.id}}"/></td>
                                 <td class="price_alltd"> {% widthratio product.main_discount_call 1 product.customer_count  %} <span>تومان</span></td>
+                                <td><button type="submit" data-count_id="{{product.id}}" class="btn btn-second-masai">به روز رسانی</button></td>
                             </tr>
                             {% endfor %}
 
@@ -81,7 +85,6 @@
                     <div class="cart-page-content col-xl-8 col-lg-7 col-md-7 ">
                         <input type="text" placeholder="کد تخفیف" class="input_second input_all width-200" disabled>
                         <a href="#" class="btn btn-main-masai"> اعمال</a>
-                        <a href="#" class="btn btn-second-masai">به روز رسانی</a>
                         <div class="text_details">
                             <p>
                                 افزودن کالا به سبد خرید به معنی رزرو آن نیست با توجه به محدودیت موجودی سبد خود را ثبت و خرید را تکمیل کنید.
@@ -93,7 +96,7 @@
                             <tbody>
                                 <tr>
                                     <td>قیمت کل سفارش:</td>
-                                    <td>5,398,000 <span>تومان</span></td>
+                                    <td>{{total_price}} <span>تومان</span></td>
                                 </tr>
                                 <tr>
                                     <td>بسته‌بندی و ارسال:</td>
@@ -101,7 +104,7 @@
                                 </tr>
                                 <tr class="all">
                                     <td>قیمت قابل پرداخت:</td>
-                                    <td>5,398,000 <span>تومان</span></td>
+                                    <td>{{total_price}} <span>تومان</span></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><a href="shopping-payment.html" class="btn big_btn btn-main-masai"> گام بعدی</a></td>
@@ -110,11 +113,22 @@
                         </table>
                     </div>
                 </div>
-            </div>
-                
-            </div>
-            </div>
-    
+            </div>                
+        </div>
+    </div>
+
 </main>
 <!-- main -->
 {% endblock body %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+        $('.btn-second-masai').click(function(){
+            let countId = $(this).data('count_id')
+            let count = $('#'+countId).val()
+            window.location.href = '{% url "cart:change_orderitem_count" %}' + `?product_id=${countId}&count=${count}`
+        });
+    });
+</script>
+{% endblock js %}

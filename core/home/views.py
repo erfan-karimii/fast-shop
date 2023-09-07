@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from .models import TemplateSettings , NavBar , Footer
+from product.models import Product
+import ast
+
+from cart.views import check_cookies
 # Create your views here.
 
 def home_view(request):
@@ -8,10 +12,22 @@ def home_view(request):
     }
     return render(request,'index.html',context)
 
-def header_view(request):
+@check_cookies('orderdetail')
+def header_view(request,**kwargs):
+    if kwargs.get('orderdetail') :
+        orderdetail = ast.literal_eval(request.COOKIES.get('orderdetail'))
+        products = Product.objects.filter(id__in=orderdetail.keys())[:2]
+        counts = list(orderdetail.values())
+        for index,product in enumerate(products) :
+            product.customer_count = counts[index]
+    else:
+        products = []
+    
+
     context = {
         'template_setting' : TemplateSettings.objects.last(),
         'navbars' : NavBar.objects.all(),
+        'products' : products,
     }
     return render(request,'header.html',context)
 

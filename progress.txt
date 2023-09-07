@@ -2,4 +2,4 @@
 15 min home page (static)
 1 h footer and header full dynamic
 
-++45 min
+++1 h

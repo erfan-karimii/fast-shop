@@ -35,7 +35,6 @@ def check_login_view(request):
 
 
 def welcome_page_view(request):
-    print(request.user)
     context = {
 
     }
@@ -79,7 +78,6 @@ def check_reset_password_view(request):
     if request.method == 'POST':
         form = ResetPassword(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             last_password = form.cleaned_data['last_password']
             password = form.cleaned_data['password']
             user = authenticate(request, email=request.user.email, password=last_password)
@@ -126,7 +124,6 @@ def profile_edit_view(request):
 @login_required
 def check_profile_edit_view(request):
     if request.method == 'POST':
-        print(request.POST,request.FILES)
         profile = Profile.objects.get(user=request.user)
         form = ProfileEditForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():

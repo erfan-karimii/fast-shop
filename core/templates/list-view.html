@@ -196,7 +196,9 @@
                                                 
 
                                                 <span class="search_prod_btn">
-                                                    <i class="fa fa fa-cart-arrow-down search_icon_cart" aria-hidden="true"></i>
+                                                    <a href="{% url 'cart:add_to_cart' %}?product_id={{product.id}}">
+                                                        <i class="fa fa fa-cart-arrow-down search_icon_cart" aria-hidden="true"></i>
+                                                    </a>
                                                 </span>
                                             </div>
                                             <a class="product-box-img" href="{% url 'product:detail-view' id=product.id  %}">
