@@ -1,0 +1,80 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+
+{% block body %}
+<!-- main -->
+<main class="order-delivered default space-top-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-8 col-md-12 order-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <header class="card-header">
+                            <h3 class="card-title"><span>سفارشات در جریان</span></h3>
+                        </header>
+                        <div class="content-section default">
+                            <div class="row">
+                                {% for order in orders %}
+                                <div class="col-md-12 col-sm-12 order_delivered_sec">
+                                    <div class="profile-recent-fav-row">
+                                        <div class="col-12">
+                                            <h4 class="profile-recent-fav-name">
+                                                {% if order.order_status == 'in_proccesing' %}
+                                                <i class="fa fa-spinner" aria-hidden="true"></i> پردازش انبار
+                                                
+                                                {% elif order.order_status == 'sended' %}
+                                                <i class="fa fa-truck" aria-hidden="true"></i> خروج از انبار
+                                                
+                                                {% endif %}
+                                            </h4>
+                                            <ul>
+                                                <li>
+                                                    {{order.payment_date.day}}/{{order.payment_date.month}}/{{order.payment_date.year}} 
+                                                </li>
+                                                <li>
+                                                    کد سفارش <b>{{order.shopping_id}}</b>
+                                                </li>
+                                                <li>
+                                                    مجموع سبد <b>{{order.paid_amount}} تومان</b>
+
+                                                </li>
+                                            </ul>
+                                            <h4 class="profile-recent-Club">
+                                                <i class="fa fa-gift" aria-hidden="true"></i> امتیاز مسای‌کلاب <b>0</b>
+                                            </h4>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <div class="row">
+                                                {% for orderitem in order.orderitem_set.all %}
+                                                <div class="col-4 col-lg-1 col-md-1">
+                                                    <img src="{{orderitem.product.image.url}}">
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-left">
+                                            {% if order.order_status == 'in_proccesing' %}
+                                            <a class="btn btn-error-masai">لغو سبد</a>
+
+                                            {% elif order.order_status == 'sended' %}
+                                            <a class="btn btn-second-masai">به دست شما رسید؟</a>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% render_partial 'account:sidebar' %}
+        </div>
+    </div>
+</main>
+{% endblock body %}
+

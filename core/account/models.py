@@ -80,3 +80,11 @@ class Profile(models.Model):
 def save_profile(sender,instance,created,**kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+class ProfileMessage(models.Model):
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    message = models.TextField(verbose_name='پیغام')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.message

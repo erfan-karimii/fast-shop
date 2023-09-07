@@ -1,0 +1,44 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% load render_partial %}
+
+{% block body %}
+<!-- main -->
+<main class="order-delivered  default space-top-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-8 col-md-12 order-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <header class="card-header">
+                            <h3 class="card-title"><span>پیغام‌ها‌</span></h3>
+                            
+                        </header>
+                        <div class="content-section default">
+                            <div class="row">
+                                {% for msg in messages %}
+                                <div class="col-md-6 col-sm-6 order_delivered_sec">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-12 col-md-12">
+
+                                            <h4 class="profile-recent-fav-name">
+                                                <i class="fa fa-bell " aria-hidden="true"></i> {{msg.message}}
+                                            </h4>
+                                            <span class="span-sub-bel">{{order.payment_date.day}}/{{order.payment_date.month}}/{{order.payment_date.year}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% render_partial 'account:sidebar' %}
+            
+        </div>
+    </div>
+</main>
+<!-- main -->
+{% endblock body %}

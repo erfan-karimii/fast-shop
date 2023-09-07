@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
-import re
+import re , random , string
 # Create your models here.
 
 def validate_phone_number(value):
@@ -12,6 +12,13 @@ def validate_phone_number(value):
 
 
 class Order(models.Model):
+    ORDER_STATUS_CHOICES = (
+        ('not_paid' , 'پرداخت نشده'),
+        ('in_proccesing' , 'در حال پردازش انبار'),
+        ('sended' , 'خروج از انبار'),
+        ('delivered' , 'تحویل داده شد'),
+    )
+    shopping_id = models.SlugField(unique=True, blank=True,null=True,db_index=True)
     profile = models.ForeignKey('account.Profile',on_delete=models.CASCADE)
     first_name = models.CharField(max_length=250,null=True,blank=True)
     last_name = models.CharField(max_length=250,null=True,blank=True)
@@ -20,12 +27,24 @@ class Order(models.Model):
     zip_code = models.CharField(max_length=30,null=True)
     national_code = models.CharField(max_length=10,null=True)
     paid_amount = models.DecimalField(max_digits=8,decimal_places=2,blank=True,null=True)
-    is_paid = models.BooleanField(default=False)
-    stripe_token = models.CharField(max_length=100,null=True,blank=True)
+    order_status = models.CharField(max_length=20,choices=ORDER_STATUS_CHOICES,default='not_paid')
     payment_date = models.DateTimeField(null=True,blank=True)
 
     def __str__(self):
         return str(self.profile) + " ////////// " + str(self.id)
+    
+    def save(self, *args, **kwargs):
+        while not self.shopping_id:
+            new_shopping_id = ''.join(
+                random.sample(string.ascii_letters, 2) + 
+                random.sample(string.digits, 2) +
+                random.sample(string.ascii_letters, 2),
+            )
+
+            if not Order.objects.filter(shopping_id=new_shopping_id).exists():
+                self.shopping_id = new_shopping_id
+
+        super().save(*args, **kwargs)
 
 
 class OrderItem(models.Model):

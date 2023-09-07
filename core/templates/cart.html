@@ -9,17 +9,17 @@
             <div class="col-12 text-center">
                 <ul class="order-steps">
                     <li>
-                        <a href="cart.html" class="active">
+                        <a href="#" class="active">
                             <span>سبدخرید</span>
                         </a>
                     </li>
                     <li>
-                        <a href="shopping-payment.html">
-                            <span>پرداخت</span>
+                        <a href="#">
+                            <span>تکمیل سفارش</span>
                         </a>
                     </li>
                     <li>
-                        <a href="successful-payment.html">
+                        <a href="#">
                             <span>اتمام خرید و ارسال</span>
                         </a>
                     </li>
@@ -107,7 +107,7 @@
                                     <td>{{total_price}} <span>تومان</span></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><a href="shopping-payment.html" class="btn big_btn btn-main-masai"> گام بعدی</a></td>
+                                    <td colspan="2"><a href="{% url 'cart:confirm_order' %}" class="btn big_btn btn-main-masai"> گام بعدی</a></td>
                                 </tr>
                             </tbody>
                         </table>

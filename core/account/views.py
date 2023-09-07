@@ -4,12 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
-from .models import User,Profile
+from .models import User,Profile , ProfileMessage
+from cart.models import Order
 # Create your views here.
 
 def login_view(request):
+    next_url = request.GET.get('next',None)
     context = {
-
+        'next_url' : next_url
     }
     return render(request,'account/login.html',context)
 
@@ -24,7 +26,7 @@ def check_login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect(request.GET.get('next') or 'account:welcome')
+                return redirect(request.POST.get('next-url') or 'account:welcome')
             else:
                 messages.error(request,'.کاربری با مشخصات وارده پیدا نشد')
                 return redirect('account:login')
@@ -103,6 +105,7 @@ def profile_view(request):
     }
     return render(request,'profile/profile.html',context)
 
+
 @login_required
 def sidebar_view(request):
     profile = Profile.objects.get(user=request.user)
@@ -112,6 +115,7 @@ def sidebar_view(request):
     }
     return render(request,'profile/sidebar.html',context)
 
+
 @login_required
 def profile_edit_view(request):
     profile = Profile.objects.get(user=request.user)
@@ -120,6 +124,7 @@ def profile_edit_view(request):
         'profile' : profile,
     }
     return render(request,'profile/edit-profile.html',context)
+
 
 @login_required
 def check_profile_edit_view(request):
@@ -133,6 +138,22 @@ def check_profile_edit_view(request):
             messages.error(request,form.errors)
         
         return redirect("account:profile")
-        
 
 
+@login_required
+def current_order_view(request):
+    profile = Profile.objects.get(user=request.user)
+    orders = Order.objects.filter(profile=profile)
+    context = {
+        'orders' : orders , 
+    }
+    return render(request,'profile/order-current.html',context)
+
+
+def message_page_view(request):
+    profile = Profile.objects.get(user=request.user)
+    messages = ProfileMessage.objects.filter(profile=profile) 
+    context = {
+        'messages' : messages
+    }
+    return render(request,'order-message.html',context)

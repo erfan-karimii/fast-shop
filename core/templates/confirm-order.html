@@ -1,0 +1,141 @@
+﻿{% extends 'base.html' %}
+
+{% block body %}
+<main class="cart-page default ">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <ul class="order-steps">
+                    <li>
+                        <a href="#" class="active">
+                            <span>سبدخرید</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#" class="active active2">
+                            <span>تکمیل سفارش</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span>اتمام خرید و ارسال</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="Final_payment_content col-12 mx-auto">
+                <header class="card-header">
+                    <h3 class="card-title"><span>تسویه حساب</span></h3>
+                </header>
+                <div class="account-box Final_payment_page">
+
+                    <div class="account-box-content">
+                        <form class="form-account" method="post" action="{% url 'cart:check_confirm_order' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-account-title"><span>*</span> نام</div>
+                                            <div class="form-account-row">
+                                                <input class="input_second input_all" name="first_name" type="text" placeholder=" نام شما">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-account-title"><span>*</span> نام خانوادگی</div>
+                                            <div class="form-account-row">
+                                                <input class="input_second input_all" name="last_name" type="text" placeholder=" نام خانوادگی شما">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-account-title"><span>*</span> شماره تماس</div>
+                                            <div class="form-account-row">
+                                                <input class="input_second input_all" name="phone_number" type="number"
+                                                        placeholder=" شماره تماس شما">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-account-title"> کد ملی</div>
+                                            <div class="form-account-row">
+                                                <input class="input_second input_all" name="national_code" type="text"
+                                                        placeholder="کد ملی">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="form-account-title"> کد پستی</div>
+                                            <div class="form-account-row">
+                                                <input class="input_second input_all" name="zip_code" type="text"
+                                                        placeholder="کد پستی">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-account-title">آدرس پستی</div>
+                                            <div class="form-account-row">
+                                                <textarea name="address" class="input_second input_all input_textarea text-right" rows="5"
+                                                            placeholder=" شماره موبایل خود را وارد نمایید"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-account-agree">
+                                                <label class="checkbox-form checkbox-primary">
+                                                    <input type="checkbox" id="agree">
+                                                    <span class="checkbox-check"></span>
+                                                </label>
+                                                <label for="agree"> گیرنده خودم هستم</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="row">
+
+                                        <table class="table table_details table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>محصول</th>
+                                                    <th>قیمت کل</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for product in products %}
+                                                <tr>
+                                                    <td>{{product.name}}</td>
+                                                    <td>{% widthratio product.main_discount_call 1 product.customer_count  %} <span>تومان</span></td>
+                                                </tr>
+                                                {% endfor %}
+                                                
+                                                <tr class="all">
+                                                    <td>مجموع	</td>
+                                                    <td>{{total_price}} <span>تومان</span></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2" class="Final_payment_det">
+
+                                                        <div class="col-12 ">
+                                                            <p>
+                                                                <i class="fa fa-circle"></i> برای حفظ محیط زیست از نسخه الکترونیکی فاکتور در پروفایل خود به جای چاپ کاغذی می توانید استفاده کنید.
+                                                            </p>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2"><button type="submit" class="btn big_btn btn-main-masai">ثبت سفارش </button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock body %}

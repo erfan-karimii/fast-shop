@@ -19,7 +19,7 @@ urlpatterns = [
     path('sidebar/',views.sidebar_view,name="sidebar"),
     path('profile_edit/',views.profile_edit_view,name="profile_edit"),
     path('check_profile_edit/',views.check_profile_edit_view,name="check_profile_edit"),
-
-
+    path('current_order/',views.current_order_view,name="current_order"),
+    path('message_page/',views.message_page_view,name="message_page"),
 
 ]

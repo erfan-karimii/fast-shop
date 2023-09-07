@@ -1,0 +1,51 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<!-- main-shopping -->
+<main class="cart-page default">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <ul class="order-steps">
+                    <li>
+                        <a href="#" class="active">
+                            <span>سبدخرید</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#" class="active active2">
+                            <span>تکمیل سفارش</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#" class="active active3">
+                            <span>پایان خرید</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <main class="cart default">
+                <div class="container text-center cart_empty">
+
+                    <img src="{% static 'assets/img/unsuccessful-cart.png' %}" class="" />
+                    <h6>
+                        متاسفانه ، سفارش شما ثبت نشد 
+                        
+                    </h6>
+                    <p>
+                        اگر مبلغی از حساب شما کسر گردید، حداکثر طی 72 ساعت آینده به حساب شما باز میگردد
+                        
+                        
+                    </p>
+                    
+                    <a href="#" class="btn btn-main-masai">مشاهده وضعیت سفارش</a>
+
+                </div>
+            </main>
+        </div>
+    </div>
+</main>
+<!-- main-shopping -->
+{% endblock body %}

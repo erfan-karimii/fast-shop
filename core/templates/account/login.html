@@ -16,6 +16,9 @@
                     
                         <form  method="post" action="{% url 'account:check_login' %}" class="">
                             {% csrf_token %}
+                            {% if next_url %}
+                                <input type="hidden" name="next-url" value="{{next_url}}">
+                            {% endif %}
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
                                     <div class="form-account-title"><span>*</span> ایمیل</div>

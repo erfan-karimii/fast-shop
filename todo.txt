@@ -1,6 +1,14 @@
 - check settings.py django deeply
+- dynamic index page
 - add is_show category & product to custom admin panel
 - simple captcha on comment
-- fix color show when search by color
 - most sell order_by listview
 - verify email
+- گیرنده خودم هستم
+- save total_price in cookie
+- update check cookie to accept list of strings
+- validate cookie with form in suuccessful view
+- make successful oage atomic?
+- contactus & aboutus
+- unsuccessful payment
+- make messages more user friendly
