@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User , Profile , ProfileMessage
+from .models import User , Profile , ProfileMessage , UserProfileSideBar
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
@@ -41,3 +41,5 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(User,CustomUserAdmin)
 admin.site.register(Profile)
 admin.site.register(ProfileMessage)
+admin.site.register(UserProfileSideBar)
+

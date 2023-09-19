@@ -12,10 +12,14 @@ from account.models import Profile , ProfileMessage
 # Create your views here.
 
 
-def check_cookies(cookie):
+def check_cookies(cookies):
     def decorator(view_func):
         def wrapper(request, *args, **kwargs):
-            kwargs.update({cookie:cookie in request.COOKIES,})
+            if isinstance(cookies,str):
+                kwargs.update({cookies:cookies in request.COOKIES,})
+            else:
+                for cookie in cookies:
+                    kwargs.update({cookie:cookie in request.COOKIES,})
             return view_func(request, *args, **kwargs)
         return wrapper
     return decorator
@@ -155,8 +159,7 @@ def check_confirm_order_view(request):
 
 
 @login_required    
-@check_cookies('order')
-@check_cookies('orderdetail')
+@check_cookies(['order','orderdetail'])
 def shopping_payment_view(request,**kwargs):
     if kwargs.get('order') and kwargs.get('orderdetail') and request.COOKIES.get('orderdetail') != '{}' :
         orderdetail = ast.literal_eval(request.COOKIES.get('orderdetail'))
@@ -176,8 +179,7 @@ def shopping_payment_view(request,**kwargs):
 
 
 @login_required    
-@check_cookies('order')
-@check_cookies('orderdetail')
+@check_cookies(['order','orderdetail'])
 def successful_payment_view(request,**kwargs):
     if kwargs.get('order') and kwargs.get('orderdetail') and request.COOKIES.get('orderdetail') != '{}' :
         profile = Profile.objects.get(user=request.user)

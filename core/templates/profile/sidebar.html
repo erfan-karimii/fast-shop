@@ -39,114 +39,25 @@
                 حساب کاربری شما
             </button>
             <div class="dropdown-menu dropdown-menu-right text-right">
-                <a href="order-delivered.html" class="dropdown-item  ">
-                    <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>
-                    تحویل داده شده
+                {% for item in sidebar_items %}
+                <a href="{{item.link}}" class="dropdown-item  ">
+                    <i class="fa {{item.icon}} colormain" aria-hidden="true"></i>
+                    {{item.name}}
                 </a>
-                <a href="order-current.html" class="dropdown-item ">
-                    <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>   سفارش جاری
-                </a>
-                <a href="order-cancelled.html" class="dropdown-item">
-                    <i class="fa fa-times colormain" aria-hidden="true"></i>
-                    لغو شده
-                </a>
-                <a href="orders-return.html" class="dropdown-item">
-                    <i class="fa fa-thumbs-down colormain" aria-hidden="true"></i>
-                    مرجوع محصول
-                </a>
-
-                <a href="profile-favorites.html" class="dropdown-item">
-                    <i class="fa fa-bookmark colormain" aria-hidden="true"></i>
-                    لیست های من
-                </a>
-
-                <a href="order-address.html" class="dropdown-item">
-                    <i class="fa fa-map icon-icon colormain" aria-hidden="true"></i>
-                    آدرس ها
-                </a>
-
-                <a href="order-message.html" class="dropdown-item">
-                    <i class="fa fa-bell colormain" aria-hidden="true"></i>
-                    پیغام ها
-                </a>
-
-                <a href="profile.html" class="dropdown-item active-menu">
-                    <i class="fa fa-user-large colormain"></i>
-                    پروفایل
-                </a>
-
-                <a href="edit-profile.html" class="dropdown-item">
-                    <i class="fa fa-pencil colormain" aria-hidden="true"></i>
-                    ویرایش اطلاعات
-                </a>
-
-                <a href="password-update.html" class="dropdown-item">
-                    <i class="fa fa-shield colormain" aria-hidden="true"></i>
-                    امنیت و تغییر رمز
-                </a>
-
-                
+                {% endfor %}
             </div>
         </div>
     </div>
     <div class="profile-menu">
         <ul class="profile-menu-items">
+            {% for item in sidebar_items %}
             <li>
-                <a href="{% url 'account:profile' %}" id="profile" class="dropdown-item">
-                    <i class="fa fa-user-large colormain"></i>
-                    پروفایل
+                <a href="{{item.link}}" id="profile" class="dropdown-item">
+                    <i class="fa {{item.icon}} colormain"></i>
+                    {{item.name}}
                 </a>
             </li>
-            <li>
-                <a href="{% url 'product:wishlist' %}" id="wishlist" class="dropdown-item">
-                    <i class="fa fa-bookmark colormain" aria-hidden="true"></i>
-                    لیست علاقه مندی ها
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:delivered_order' %}" id="delivered_order" class="dropdown-item ">
-                    <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>
-                    تحویل داده شده
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:current_order' %}" id="current_order" class="dropdown-item ">
-                    <i class="fa fa-cart-arrow-down colormain" aria-hidden="true"></i>    
-                    سفارش جاری
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:cancelled_order' %}" id="cancelled_order" class="dropdown-item">
-                    <i class="fa fa-times colormain" aria-hidden="true"></i>
-                    لغو شده
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:message_page' %}" id="message_page" class="dropdown-item">
-                    <i class="fa fa-bell colormain" aria-hidden="true"></i>
-                    پیغام ها
-                </a>
-            </li>
-            
-            <li>
-                <a href="{% url 'account:profile_edit' %}" id="profile_edit" class="dropdown-item">
-                    <i class="fa fa-pencil colormain" aria-hidden="true"></i>
-                    ویرایش اطلاعات
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:reset_password' %}" id="reset_password" class="dropdown-item">
-                    <i class="fa fa-shield colormain" aria-hidden="true"></i>
-                     تغییر رمز عبور
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'account:logout' %}" class="dropdown-item">
-                    <i class="fa fa-shield colormain" aria-hidden="true"></i>
-                     خروج از حساب کاربری
-                </a>
-            </li>
-            
+            {% endfor %}
         </ul>
     </div>
 </div>

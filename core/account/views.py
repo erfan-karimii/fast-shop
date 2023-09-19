@@ -7,7 +7,7 @@ import random
 
 
 from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
-from .models import User,Profile , ProfileMessage
+from .models import User,Profile , ProfileMessage , UserProfileSideBar
 from cart.models import Order
 from cart.views import check_cookies
 # Create your views here.
@@ -144,12 +144,14 @@ def sidebar_view(request):
     delivered_orders_count = Order.objects.filter(profile=profile,order_status='delivered').count()
     cancelled_orders_count = Order.objects.filter(profile=profile,order_status='cancelled').count()
     current_orders_count = Order.objects.filter(Q(profile=profile) & (Q(order_status='in_proccesing')|Q(order_status='sended'))).count()
+    sidebar_items = UserProfileSideBar.objects.all()
 
     context = {
         "cancelled_orders_count":cancelled_orders_count,
         "delivered_orders_count":delivered_orders_count,
         "current_orders_count":current_orders_count,
         'profile' : profile,
+        'sidebar_items' : sidebar_items,
     }
     return render(request,'profile/sidebar.html',context)
 

@@ -90,3 +90,10 @@ class ProfileMessage(models.Model):
 
     def __str__(self):
         return self.message
+
+class UserProfileSideBar(models.Model):
+    name = models.CharField(max_length=30,verbose_name='اسم لینک')
+    icon = models.CharField(max_length=30,verbose_name='ایکون لینک',null=True)
+    link = models.CharField(max_length=100,verbose_name='لینک')
+    def __str__(self):
+        return self.name + " | " + self.link
