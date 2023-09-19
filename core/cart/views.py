@@ -178,6 +178,7 @@ def successful_payment_view(request,**kwargs):
         for product in products :
             product.customer_count = orderdetail[product.id]
             product.count -= product.customer_count
+            product.sales_number += product.customer_count
             total_price += product.calculate_price(product.customer_count)
             product.save()
 
@@ -204,6 +205,7 @@ def successful_payment_view(request,**kwargs):
         return response
     else:
         return redirect('/')
+
 
 def unsuccessful_payment_view(request):
     return render(request,'unsuccessful-payment.html')

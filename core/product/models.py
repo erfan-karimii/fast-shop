@@ -39,10 +39,12 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     color = ColorField(samples=COLOR_PALETTE,null=True)
     discount = models.IntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],verbose_name='درصد تخفیف')
+    sales_number = models.IntegerField(default=0)
     specification = models.TextField()
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True,null=True)
+    is_special = models.BooleanField(default=False)
     is_show = models.BooleanField(default=True)
 
     def __str__(self):

@@ -3,6 +3,7 @@
 
 {% block css %}
 <link href="{% static 'assets/css/plugins/prettyphoto/css/prettyPhoto.css' %}" rel="stylesheet" />
+
 {% endblock css %}
 
 
@@ -251,7 +252,9 @@
                                             <br>
                                             <input class="form-control" name="score" type="number" min="0" max="10" placeholder="(از 10) نمره شما">
                                             <br>
-                                            <button type="submit" class="btn btn-main-masai">ارسال برای تایید</button>
+                                            {{form.captcha}}
+                                            <br>
+                                            <button type="submit" style="display: block;" class="btn btn-main-masai">ارسال برای تایید</button>
                                         </form>
                                     </div>
                                 </div>
@@ -288,6 +291,7 @@
 
 				$(".gallery:first a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'normal',theme:'light_square',slideshow:3000, autoplay_slideshow: false});
 				$(".gallery:gt(0) a[rel^='prettyPhoto']").prettyPhoto({animation_speed:'fast',slideshow:10000, hideflash: true});
+                $("#id_captcha_1").addClass("form-control").attr('placeholder','لطفا کد امنیتی را وارد کنید')
 
 			  });
     </script>

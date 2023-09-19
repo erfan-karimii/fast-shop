@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import Product , Category , WishList
-from .forms import CommentForm , ProductFilterForm
+from .forms import CommentForm
 from home.models import TemplateSettings , Brand
 from account.models import Profile 
 # Create your views here.
@@ -18,10 +18,11 @@ def detail_view(request,id):
 
     product.string1 = lines[:half]
     product.string2 = lines[half:]
-
+    form = CommentForm()
     context = {
         'product':product,
         'template_setting' : TemplateSettings.objects.last(),
+        'form' : form,
     }
     return render(request,'single-product.html',context)
 
@@ -47,6 +48,8 @@ def validate_comment_view(request):
 def list_view(request,cat_id=None):
     categories = Category.objects.all()[:6]
     brands = Brand.objects.all()
+    profile = Profile.objects.get(user=request.user)
+    wishlist = WishList.objects.get(profile=profile)
     
     selected_colors = request.GET.getlist('colors','')
     selected_brands = request.GET.getlist('brands','')
@@ -58,6 +61,7 @@ def list_view(request,cat_id=None):
     category = None
     if cat_id:
         category = Category.objects.get(id=cat_id)
+        brands = category.brand.all()
         products = products.filter(category=category)
 
     if selected_brands:
@@ -76,7 +80,8 @@ def list_view(request,cat_id=None):
         'min_price' : min_price,
         'max_price' : max_price,
         'category' : category,
-        'order_by' : order_by
+        'order_by' : order_by,
+        'wishlist' : wishlist,
     }
     return render(request,'list-view.html',context)
 
@@ -117,11 +122,13 @@ def add_to_wishlist_ajax(request):
         wishlist.product.remove(product)
         message = "محصول از لیست علاقه مندی شما حذف شد."
         icon = 'info'
+        css_class = 'search_icon_like_2'
     else:
         wishlist.product.add(product)
         message = "محصول به لیست علاقه مندی شما اضافه شد."
         icon = 'success'
+        css_class = 'search_icon_like'
     wishlist.save()
-    return JsonResponse({'message':message,'icon':icon})
+    return JsonResponse({'message':message,'icon':icon,'id':product.id,'css_class':css_class})
 
     

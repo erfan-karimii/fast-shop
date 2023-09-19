@@ -191,7 +191,14 @@
                                             <div class="product-seller-details product-seller-details-item-grid">
                                                 <span class="search_prod_icon">
                                                     <i class="fa fa-search search_icon_search" aria-hidden="true"></i>
-                                                    <i class="fa fa-heart search_icon_like" aria-hidden="true" data-product_id="{{product.id}}"></i>
+                                                    <i id="{{product.id}}" class="fa fa-heart 
+                                                    {% if product in wishlist.product.all %}
+                                                    search_icon_like
+                                                    {% else %}
+                                                    search_icon_like_2
+                                                    {% endif %}
+                                                    
+                                                    " aria-hidden="true" data-product_id="{{product.id}}"></i>
                                                 </span>
                                                 
 
@@ -258,7 +265,8 @@
                 url : '{% url "product:add-to-wishlist" %}',
                 data : {'product_id':product_id}, 
                 dataType : 'json', 
-                success : function (data) { 
+                success : function (data) {
+                    $(`#${data.id}`).attr('class', `fa fa-heart ${data.css_class}`);
                     Swal.fire({
                         icon: data.icon,
                         text: data.message,

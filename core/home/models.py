@@ -71,3 +71,16 @@ class FooterDepthTwo(models.Model):
     def __str__(self):
         return  str(self.parent.name) + " | " +  self.name 
 
+class ContactUsInfo(models.Model):
+    address = models.TextField(verbose_name='ادرس فروشگاه')
+    email = models.TextField(verbose_name='ایمیل فروشگاه',null=True,blank=True)
+    phone_number = models.TextField(verbose_name='شماره تلفن فروشگاه')
+
+class ContectUsKeeprt(models.Model):
+    first_name = models.CharField(max_length=155)
+    last_name = models.CharField(max_length=155)
+    phone_number = models.CharField(max_length=20)
+    text = models.TextField()
+    is_email_answer = models.BooleanField(default=True)
+    def __str__(self):
+        return self.first_name + " " + self.last_name

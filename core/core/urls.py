@@ -21,8 +21,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('',include('ckeditor_uploader.urls')),
     path('accounts/', include('account.urls')),
+    path('captcha/', include('captcha.urls')),
+    path('',include('ckeditor_uploader.urls')),
     path('',include('product.urls')),
     path('',include('cart.urls')),
     path('',include('home.urls')),

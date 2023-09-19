@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_render_partial",
     'colorfield',
+    'captcha',
 ]
 
 MIDDLEWARE = [
