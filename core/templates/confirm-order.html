@@ -30,7 +30,7 @@
                 <div class="account-box Final_payment_page">
 
                     <div class="account-box-content">
-                        <form class="form-account" method="post" action="{% url 'cart:check_confirm_order' %}">
+                        <form class="form-account" method="post" id="order-address" action="{% url 'cart:check_confirm_order' %}">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-8 col-sm-12">
@@ -71,8 +71,8 @@
                                         <div class="col-12">
                                             <div class="form-account-title">آدرس پستی</div>
                                             <div class="form-account-row">
-                                                <textarea name="address" class="input_second input_all input_textarea text-right" rows="5"
-                                                            placeholder=" شماره موبایل خود را وارد نمایید"></textarea>
+                                                <textarea id="address" name="address" class="input_second input_all input_textarea text-right" rows="5"
+                                                            placeholder="ادرس خود را وارد نمایید"></textarea>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -139,3 +139,31 @@
 
 </main>
 {% endblock body %}
+
+{% block js %}
+<script>
+    $(document).ready(function(){
+        const checkbox = $('#agree');
+        checkbox.on('change', function() {
+            if ($(this).is(':checked')) {
+                $.ajax({
+                type : 'GET',
+                url : '{% url "cart:user_recipient" %}',
+                success : function (data) {
+                    $.each(data, function(key, value) {
+                        if (key == 'address') {
+                            $('#address').val(value)
+                        }else{
+                            $(`input[name="${key}"]`).val(value);
+                        }
+                    });   
+                },
+                error: function(data){ alert('error'); }
+            })
+            }else{
+                $('#order-address input, #order-address textarea').val('');
+            }
+        });
+    });
+</script>
+{% endblock js %}

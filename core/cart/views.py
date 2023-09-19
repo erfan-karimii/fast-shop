@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from django.http import Http404 
+from django.http import Http404 ,JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -124,6 +124,18 @@ def confirm_order_view(request,**kwargs):
     else:
         return redirect('/')
     return render(request,'confirm-order.html',context)
+
+@login_required    
+def user_recipient_ajax(request):
+    profile = Profile.objects.get(user= request.user)
+    first_name = profile.first_name
+    last_name = profile.last_name
+    phone_number = profile.phone_number
+    zip_code = profile.zip_code
+    national_code = profile.national_code
+    address = profile.address
+    properties = {'first_name' : first_name,'last_name' : last_name,'phone_number' : phone_number,'zip_code' : zip_code,'national_code' : national_code,'address' : address}
+    return JsonResponse(properties)
 
 
 @login_required    

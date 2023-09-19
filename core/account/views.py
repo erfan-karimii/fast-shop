@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login ,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+import random
 
 
 from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
@@ -65,7 +66,8 @@ def check_register_view(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            User.objects.create_user(email=email,password=password,is_active=False)
+            verify_code = random.randint(100,10000)
+            User.objects.create_user(email=email,password=password,verify_code=verify_code,is_active=False)
             response = redirect('account:verify_email')
             response.set_cookie('email',email,172800)
             return response
@@ -79,6 +81,23 @@ def verify_email_view(request,**kwargs):
         return redirect('account:register')
     return render(request,'account/verify-email.html')
 
+@check_cookies('email')
+def check_verify_email_view(request,**kwargs):
+    if not kwargs.get('email'):
+        return redirect('account:register')
+    email = request.COOKIES.get('email')
+    verify_code = request.POST.get('verify-code')
+    user = User.objects.filter(email=email,verify_code=verify_code,is_active=False)
+    if user.exists():
+        user = user.first()
+        user.is_active = True
+        user.save()
+        login(request, user)
+        messages.success(request,'اکانت شما با موفقیت فعال شد')
+        return redirect('account:welcome')
+    else:
+        messages.error(request,'کد امنیتی نادرست است.')
+        return redirect('account:verify_email')
 
 
 

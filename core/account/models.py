@@ -43,7 +43,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     Custom User Model for our app
     '''
     email = models.EmailField(max_length=255,unique=True)
-    verify_code = models.CharField(max_length=10,default='test')
+    verify_code = models.CharField(max_length=10)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -65,6 +65,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=20,null=True,validators=[validate_phone_number],)
     zip_code = models.CharField(max_length=30,null=True)
     national_code = models.CharField(max_length=10,null=True)
+    address = models.TextField(null=True,blank=True)
     image = models.ImageField(null=True,blank=True)
     send_add_email = models.BooleanField(default=True) 
 

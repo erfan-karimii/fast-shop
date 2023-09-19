@@ -51,7 +51,7 @@ def list_view(request,cat_id=None):
     categories = Category.objects.all()[:6]
     brands = Brand.objects.all()
     profile = Profile.objects.get(user=request.user)
-    wishlist = WishList.objects.get(profile=profile)
+    wishlist = WishList.objects.filter(profile=profile).first()
     
     selected_colors = request.GET.getlist('colors','')
     selected_brands = request.GET.getlist('brands','')

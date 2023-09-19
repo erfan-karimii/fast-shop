@@ -1,6 +1,4 @@
 -- check settings.py django deeply
-- verify email
-- گیرنده خودم هستم
 - save total_price in cookie
 - update check cookie to accept list of strings
 - unsuccessful payment
@@ -9,3 +7,5 @@
 -- make messages more user friendly  
 -- make factor
 -- check user count 
+
+- send email on server

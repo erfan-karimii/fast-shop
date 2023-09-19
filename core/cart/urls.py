@@ -9,6 +9,7 @@ urlpatterns = [
     path('change_orderitem_count/',views.change_orderitem_count_view,name='change_orderitem_count'),
     path('remove_from_cart/',views.remove_from_cart_view,name='remove_from_cart'),
     path('confirm_order/',views.confirm_order_view,name='confirm_order'),
+    path('user_recipient/',views.user_recipient_ajax,name='user_recipient'),
     path('check_confirm_order/',views.check_confirm_order_view,name='check_confirm_order'),
     path('shopping_payment/',views.shopping_payment_view,name='shopping_payment'),
     path('successful_payment/',views.successful_payment_view,name='successful_payment'),
