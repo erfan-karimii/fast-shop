@@ -1,7 +1,5 @@
 -- check settings.py django deeply
 -- save total_price in cookie
-- update check cookie to accept list of strings
-- unsuccessful payment
 -- validate cookie with form in successful view
 -- make successful page view atomic?
 -- make messages more user friendly  
