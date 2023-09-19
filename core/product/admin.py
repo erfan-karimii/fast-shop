@@ -3,7 +3,7 @@ from .models import Category,CategoryDepthTwo,Product,PhotoGallery,Comment,WishL
 # Register your models here.
 
 class CustomProductAdmin(admin.ModelAdmin):
-    list_display = ('name','is_show')
+    list_display = ('name','sales_number','is_show')
     list_editable = ('is_show',)
 
 class CustomCategoryAdmin(admin.ModelAdmin):

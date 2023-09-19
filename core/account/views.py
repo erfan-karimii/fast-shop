@@ -8,6 +8,7 @@ from django.db.models import Q
 from .forms import RegisterForm , LoginForm , ProfileEditForm , ResetPassword
 from .models import User,Profile , ProfileMessage
 from cart.models import Order
+from cart.views import check_cookies
 # Create your views here.
 
 def login_view(request):
@@ -64,13 +65,22 @@ def check_register_view(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.create_user(email=email,password=password)
-            login(request, user)
-            return redirect('account:welcome')
+            User.objects.create_user(email=email,password=password,is_active=False)
+            response = redirect('account:verify_email')
+            response.set_cookie('email',email,172800)
+            return response
         else:
-            print(form.errors)
             messages.error(request,form.errors)
             return redirect('account:register')
+
+@check_cookies('email')
+def verify_email_view(request,**kwargs):
+    if not kwargs.get('email'):
+        return redirect('account:register')
+    return render(request,'account/verify-email.html')
+
+
+
 
 
 @login_required

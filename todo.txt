@@ -1,13 +1,11 @@
-- check settings.py django deeply
-- simple captcha on comment and contactus
-- most sell order_by in listview
+-- check settings.py django deeply
 - verify email
 - گیرنده خودم هستم
 - save total_price in cookie
 - update check cookie to accept list of strings
-- validate cookie with form in successful view
-- make successful page view atomic?
 - unsuccessful payment
-- make messages more user friendly  
-- make factor
-- check user count 
+-- validate cookie with form in successful view
+-- make successful page view atomic?
+-- make messages more user friendly  
+-- make factor
+-- check user count 

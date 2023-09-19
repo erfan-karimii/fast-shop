@@ -62,8 +62,10 @@ def about_us_view(request):
 
 def contact_us_view(request):
     contact_us_info = ContactUsInfo.objects.last()
+    form = ContactUsKeeperForm()
     context = {
-        'contact_us_info' : contact_us_info
+        'contact_us_info' : contact_us_info,
+        'form' : form,
     }
     return render(request,'contact-us.html',context)
 

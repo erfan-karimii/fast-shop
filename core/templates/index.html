@@ -102,7 +102,7 @@
                             <div class="carousel-item {% if forloop.first %}active{% endif %} {% if product.count == 0 %}finished{% endif %}">
                                 <div class="row m-0">
                                     <div class="right-col col-5 d-flex imgboxofer">
-                                        <a class="w-100 text-center" href="single-product.html">
+                                        <a class="w-100 text-center" href="{% url 'product:detail-view' id=product.id %}">
                                             <img src="{{product.image.url}}" class="img-fluid" alt="{{product.alt}}">
                                             {% if peoduct.discount %}
                                             <span class="discount-percent">{{product.discount}} % تخفیف</span>

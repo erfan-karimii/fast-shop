@@ -145,7 +145,7 @@
                                     aria-expanded="false">جدیدترین محصولات</a>
                             </li>
                             <li>
-                                <a href="#most-seller"
+                                <a href="{{request.get_full_path|order_by_url_maker:"-sales_number"}}"
                                     aria-expanded="false">‌بیشترین فروش‌</a>
                             </li>
                             <li>

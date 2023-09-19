@@ -32,6 +32,7 @@ def validate_comment_view(request):
         product_id = request.POST.get('product_id')
         product = get_object_or_404(Product,id=product_id)
         profile = Profile.objects.get(user=request.user)
+        print(request.POST)
     
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -39,8 +40,9 @@ def validate_comment_view(request):
             comment.product = product
             comment.author = profile
             comment.save()
+            messages.success(request,"کامنت شما با موفقیت ثبت شد و پس از تایید مدریت نمایش داده خواهد شد.")
         else:
-            print(form.errors)
+            messages.error(request,form.errors)
             
         return redirect(reverse("product:detail-view",args=[product_id]))
 

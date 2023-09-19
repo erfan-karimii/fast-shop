@@ -1,6 +1,5 @@
 from django import forms
 from .models import Comment
-from home.models import Brand
 from captcha.fields import CaptchaField
 
 

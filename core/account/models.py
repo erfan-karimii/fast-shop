@@ -43,6 +43,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     Custom User Model for our app
     '''
     email = models.EmailField(max_length=255,unique=True)
+    verify_code = models.CharField(max_length=10,default='test')
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
