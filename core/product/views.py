@@ -12,12 +12,12 @@ from account.models import Profile
 
 def detail_view(request,id):
     product = get_object_or_404(Product,id=id)
-    
-    lines = product.specification = product.specification.strip().split('\n')
-    half = len(lines) // 2
 
-    product.string1 = lines[:half]
-    product.string2 = lines[half:]
+    specification_dict = product.specification
+ 
+    product.string1 = dict(list(specification_dict.items())[len(specification_dict)//2:]) 
+    product.string2 = dict(list(specification_dict.items())[:len(specification_dict)//2])
+         
     form = CommentForm()
     context = {
         'product':product,
