@@ -40,7 +40,7 @@ class Product(models.Model):
     color = ColorField(samples=COLOR_PALETTE,null=True)
     discount = models.IntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],verbose_name='درصد تخفیف')
     sales_number = models.IntegerField(default=0)
-    specification = models.TextField()
+    specification = models.JSONField(null=True)
     description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True,null=True)
