@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% load extra_tags %}
 
@@ -10,26 +10,25 @@
             <div class="col-12 hidden-xs">
                 <div class="brand-slider card border_all ">
                     <header class="card-header">
-                        <h3 class="card-title"><span>دسته بندی ها</span></h3>
+                        <h3 class="card-title"><span>دسته بندی</span></h3>
                     </header>
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
-                                {% for category in categories %}
                                 <div class="col-6 col-md-2 contact-bigicon">
-                                    <a href="{% url 'product:list-cat-view' cat_id=category.id  %}"target="_blank">
+                                    <a href="#"target="_blank">
                                         <img class="img-responsive imgpad" src="{{category.image.url}}" alt="{{category.alt}}" />
                                         <b class="title-3 light-black">{{category.name}}</b>
                                     </a>
                                 </div>
-                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% comment %} <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 ">
-                <form method='get' id="filter-form" action="{% url 'product:list-view' %}">
+            <aside class="sidebar-page col-12 col-sm-12 col-md-4 col-lg-3 ">
+                <form method='get' id="filter-form" action="{% url 'product:search-view' %}">
+                    <input type="hidden" name="cat_id" value="{{cat_id}}">
                     <div class="box">
                         <header class="card-header">
                             <h3 class="card-title"><span class="space-right-10">رنگ</span></h3>
@@ -134,11 +133,11 @@
                     </div>
                     <button  id="submit-filter-form" class="btn btn-main-masai">اعمال فیلتر</button>
                 </form>
-            </aside> {% endcomment %}
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            </aside>
+            <div class="col-12 col-sm-12 col-md-8 col-lg-9">
                 
                 <div class="listing default ">
-                    {% comment %} <div class="listing-header default marg_all0">
+                    <div class="listing-header default marg_all0">
                         <ul class="Search_list nav nav-tabs " role="tablist" >
                             <li>
                                 <a  id="-created_date" href="{{request.get_full_path|order_by_url_maker:"-created_date"}}" 
@@ -160,13 +159,11 @@
                         <div class="box_filter_search">
                             <ul class="filter_search">
                                 <li>
-                                    <span>قیمت از {{min_price}} تا {{max_price}}</span>
+                                    <span>قیمت از {{min_price|default:"0"}} تا {{max_price|default:"1000000"}}</span>
                                 </li>
-                                {% if category %}
                                 <li>
                                     <span>دسته : {{category.name}}</span>
                                 </li>
-                                {% endif %}
                                 {% for color in selected_colors %}
                                 <li style="background-color: {{color}};">
                                     <span >رنگ</span>
@@ -180,13 +177,13 @@
                             </ul>
                         </div>
                         
-                    </div> {% endcomment %}
+                    </div>
                     <div class="tab-content default text-center">
                         <div class="tab-pane active" id="suggestion" role="tabpanel" aria-expanded="true">
                             
                                 <div class="row listing-items">
                                     {% for product in products %}
-                                    <div class="col-xl-3 col-lg-3 col-md-3 col-3 list_search_p ">
+                                    <div class="col-xl-4 col-lg-4 col-md-6 col-12 list_search_p ">
                                         <div class="product-box">
                                             <div class="product-seller-details product-seller-details-item-grid">
                                                 <span class="search_prod_icon">
@@ -257,7 +254,7 @@
             `)
             document.getElementById("filter-form").submit();
         });
-        $('#{{order_by}}').addClass("active");
+        {% comment %} $('#{{selected_order_by}}').addClass("active"); {% endcomment %}
         $('.fa-heart').click(function(){
             let product_id = $(this).data('product_id')
             $.ajax({

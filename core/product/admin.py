@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category,CategoryDepthTwo,Product,PhotoGallery,Comment,WishList
+from .models import Category,Product,PhotoGallery,Comment,WishList
 # Register your models here.
 
 class CustomProductAdmin(admin.ModelAdmin):
@@ -11,7 +11,6 @@ class CustomCategoryAdmin(admin.ModelAdmin):
     list_editable = ('is_special',)
 
 admin.site.register(Category,CustomCategoryAdmin)
-admin.site.register(CategoryDepthTwo)
 admin.site.register(Product,CustomProductAdmin)
 admin.site.register(PhotoGallery)
 admin.site.register(Comment)

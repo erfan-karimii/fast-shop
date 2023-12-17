@@ -47,45 +47,79 @@ def validate_comment_view(request):
         return redirect(reverse("product:detail-view",args=[product_id]))
 
 
-def list_view(request,cat_id=None):
+def list_view(request):
     categories = Category.objects.all()[:6]
     brands = Brand.objects.all()
     profile = Profile.objects.get(user=request.user)
     wishlist = WishList.objects.filter(profile=profile).first()
-    
-    selected_colors = request.GET.getlist('colors','')
-    selected_brands = request.GET.getlist('brands','')
-    order_by = request.GET.get('order_by','-created_date')
-    min_price = request.GET.get('min_price',0)
-    max_price = request.GET.get('max_price',1000000000)
-
-    products = Product.objects.filter(is_show=True,price__gte=float(min_price),price__lte=float(max_price))
-    category = None
-    if cat_id:
-        category = Category.objects.get(id=cat_id)
-        brands = category.brand.all()
-        products = products.filter(category=category)
-
-    if selected_brands:
-        products = products.filter(brand__name__in=selected_brands)
-    if selected_colors:
-        products = products.filter(color__in=selected_colors)
-    if order_by:
-        products = products.order_by(order_by)
+    products = Product.objects.filter(is_show=True).order_by('-created_date')
 
     context = {
         'products' : products,
         'categories' : categories,
         'brands' : brands,
+        'wishlist' : wishlist,
+    }
+    return render(request,'list-view.html',context)
+
+
+def search_view(request):
+    selected_colors = request.GET.getlist('colors','')
+    selected_brands = request.GET.getlist('brands','')
+    selected_order_by = request.GET.get('order_by','-created_date')
+    selected_properties = '' #IMPORTANT (need implement as fast as possible)
+    min_price = request.GET.get('min_price',0)
+    max_price = request.GET.get('max_price',1000000000)
+    cat_id = request.GET.get('cat_id',1)
+    category = Category.objects.get(id=cat_id)
+
+    products = Product.objects.filter(is_show=True,price__gte=float(min_price),price__lte=float(max_price),
+                                      category=category).order_by(selected_order_by)
+    brands = category.brand.all()
+    products = products.filter()
+
+    if selected_brands:
+        products = products.filter(brand__name__in=selected_brands)
+    if selected_colors:
+        products = products.filter(color__in=selected_colors)
+    
+    profile = Profile.objects.get(user=request.user)
+    wishlist = WishList.objects.filter(profile=profile).first()
+
+    context = {
+        'products' : products,
+        'category' : category,
+        'cat_id' : cat_id,
+        'brands' : brands,
         'selected_colors' : selected_colors,
         'selected_brands' : selected_brands,
         'min_price' : min_price,
         'max_price' : max_price,
-        'category' : category,
-        'order_by' : order_by,
+        'selected_order_by' : selected_order_by,
         'wishlist' : wishlist,
     }
-    return render(request,'list-view.html',context)
+    return render(request,'category-list-view.html',context)
+
+
+def category_list_view(request,cat_id):
+    category = Category.objects.get(id=cat_id)
+    brands = category.brand.all()
+    selected_order_by = request.GET.get('order_by','-created_date')
+    products = Product.objects.filter(is_show=True,category=category).order_by(selected_order_by)
+    profile = Profile.objects.get(user=request.user)
+    wishlist = WishList.objects.filter(profile=profile).first()
+    
+    context = {
+        'category' : category, 
+        'cat_id' : cat_id,
+        'brands' : brands, 
+        'products' : products,
+        'selected_order_by' : selected_order_by, 
+        'wishlist' : wishlist, 
+    }
+
+    return render(request,'category-list-view.html',context)
+
 
 @login_required
 def wishlist_view(request):

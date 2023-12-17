@@ -1,9 +1,9 @@
--- check settings.py django deeply
 -- save total_price in cookie
 -- validate cookie with form in successful view
 -- make successful page view atomic?
 -- make messages more user friendly  
 -- make factor
 -- check user count 
+-- cms?(for saving spesification as json easier)
 
 - send email on server

@@ -9,15 +9,8 @@ class Category(models.Model):
     return_condition = models.TextField(default='برای کالاهای گروه موبایل، امکان برگشت کالا به دلیل انصراف از خرید تنها در صورتی مورد قبول است که کالا بدون هیچگونه استفاده و با تمامی قطعات، متعلقات و بسته‌بندی‌های اولیه خود بازگردانده شود. لازم به ذکر است که برای هر کالای موبایل، ضمانت رجیستری صادر می‌شود. در صورت بروز اشکال در ضمانت رجیستری، پس از انقضای مدت ۳۰ روزه، کالا می‌تواند بازگردانده شود.')
     image = models.ImageField(verbose_name='عکس دسته بندی')
     alt = models.CharField(max_length=100,verbose_name='توضیح عکس',null=True,blank=True,default='image')
+    important_specification = models.TextField()
     is_special = models.BooleanField(default=False)
-    def __str__(self):
-        return self.name
-
-
-class CategoryDepthTwo(models.Model):
-    parent = models.ForeignKey(Category,on_delete=models.PROTECT)
-    name = models.CharField(max_length=100,verbose_name='نام زیر دسته بندی')
-    link = models.CharField(max_length=100,verbose_name='لینک زیر دسته بندی')    
     def __str__(self):
         return self.name
 
