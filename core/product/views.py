@@ -50,7 +50,7 @@ def validate_comment_view(request):
 def list_view(request):
     categories = Category.objects.all()[:6]
     brands = Brand.objects.all()
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     wishlist = WishList.objects.filter(profile=profile).first()
     products = Product.objects.filter(is_show=True).order_by('-created_date')
 
