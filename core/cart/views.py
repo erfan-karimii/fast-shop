@@ -182,7 +182,7 @@ def shopping_payment_view(request,**kwargs):
 @check_cookies(['order','orderdetail'])
 def successful_payment_view(request,**kwargs):
     if kwargs.get('order') and kwargs.get('orderdetail') and request.COOKIES.get('orderdetail') != '{}' :
-        profile = Profile.objects.get(user=request.user)
+        profile = Profile.objects.filter(user=request.user.id).first()
 
         orderdetail_cookie = request.COOKIES.get('orderdetail')
         orderdetail = ast.literal_eval(orderdetail_cookie)

@@ -1,5 +1,5 @@
 Django==4.2.3
-Pillow==9.3.0
+Pillow
 django-ckeditor==6.5.1
 django_render_partial==0.4
 django-environ

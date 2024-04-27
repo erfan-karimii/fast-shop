@@ -31,7 +31,7 @@ def validate_comment_view(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         product = get_object_or_404(Product,id=product_id)
-        profile = Profile.objects.get(user=request.user)
+        profile = Profile.objects.filter(user=request.user.id).first()
         print(request.POST)
     
         form = CommentForm(request.POST)
@@ -83,7 +83,7 @@ def search_view(request):
     if selected_colors:
         products = products.filter(color__in=selected_colors)
     
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     wishlist = WishList.objects.filter(profile=profile).first()
 
     context = {
@@ -106,7 +106,7 @@ def category_list_view(request,cat_id):
     brands = category.brand.all()
     selected_order_by = request.GET.get('order_by','-created_date')
     products = Product.objects.filter(is_show=True,category=category).order_by(selected_order_by)
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     wishlist = WishList.objects.filter(profile=profile).first()
     
     context = {
@@ -123,7 +123,7 @@ def category_list_view(request,cat_id):
 
 @login_required
 def wishlist_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     wishlist = WishList.objects.get(profile=profile)
     context = {
         'wishlist' : wishlist,
@@ -134,7 +134,7 @@ def wishlist_view(request):
 @login_required
 def remove_from_wishlist_view(request,id):
     product = Product.objects.get(id=id)
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     
     wishlist = WishList.objects.get(profile=profile)
     if product in wishlist.product.all():
@@ -151,7 +151,7 @@ def add_to_wishlist_ajax(request):
     
     product_id = request.GET.get('product_id')
     product = Product.objects.get(id=product_id)
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     
     wishlist , created = WishList.objects.get_or_create(profile=profile)
     if product in wishlist.product.all():

@@ -131,7 +131,7 @@ def check_reset_password_view(request):
 
 @login_required
 def profile_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     context = {
         'profile' : profile,
     }
@@ -140,7 +140,7 @@ def profile_view(request):
 
 @login_required
 def sidebar_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     delivered_orders_count = Order.objects.filter(profile=profile,order_status='delivered').count()
     cancelled_orders_count = Order.objects.filter(profile=profile,order_status='cancelled').count()
     current_orders_count = Order.objects.filter(Q(profile=profile) & (Q(order_status='in_proccesing')|Q(order_status='sended'))).count()
@@ -158,7 +158,7 @@ def sidebar_view(request):
 
 @login_required
 def profile_edit_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
 
     context = {
         'profile' : profile,
@@ -169,7 +169,7 @@ def profile_edit_view(request):
 @login_required
 def check_profile_edit_view(request):
     if request.method == 'POST':
-        profile = Profile.objects.get(user=request.user)
+        profile = Profile.objects.filter(user=request.user.id).first()
         form = ProfileEditForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():
             form.save()
@@ -182,7 +182,7 @@ def check_profile_edit_view(request):
 
 @login_required
 def current_order_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     orders = Order.objects.filter(Q(profile=profile) & (Q(order_status='in_proccesing')|Q(order_status='sended')))
     context = {
         'orders' : orders , 
@@ -192,7 +192,7 @@ def current_order_view(request):
 
 @login_required
 def cancelled_order_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     orders = Order.objects.filter(profile=profile,order_status='cancelled')
     context = {
         'orders' : orders , 
@@ -202,7 +202,7 @@ def cancelled_order_view(request):
 
 @login_required
 def delivered_order_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     orders = Order.objects.filter(profile=profile,order_status='delivered')
     context = {
         'orders' : orders , 
@@ -214,7 +214,7 @@ def delivered_order_view(request):
 
 @login_required
 def message_page_view(request):
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user.id).first()
     profile_messages = ProfileMessage.objects.filter(profile=profile).order_by('-created_date') 
     context = {
         'profile_messages' : profile_messages
@@ -225,7 +225,7 @@ def message_page_view(request):
 @login_required
 def product_received_view(request):
     order_id = request.GET.get('order_id',None)
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.filter(user=request.user.id).first()
     order = Order.objects.get(id=order_id)
 
     if order_id and order.profile == user_profile:
@@ -241,7 +241,7 @@ def product_received_view(request):
 @login_required
 def cancel_order_view(request):
     order_id = request.GET.get('order_id',None)
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile = Profile.objects.filter(user=request.user.id).first()
     order = Order.objects.get(id=order_id)
 
     if order_id and order.profile == user_profile:
